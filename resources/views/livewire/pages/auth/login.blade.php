@@ -39,7 +39,7 @@ new #[Layout("layouts.guest")] class extends Component {
         <x-mary-input label="{{ __('Password') }}" wire:model="form.password" type="password" class="rounded-lg" icon="o-key" inline />
 
         <!-- Remember Me -->
-        <div class="grid grid-cols-2 items-center">
+        <div class="space-y-3 md:space-y-0 md:grid md:grid-cols-2 items-center">
             <x-mary-checkbox label="{{ __('Remember me') }}" wire:model="form.remember" class="rounded-md" />
             @if (Route::has('password.request'))
                 <a class="underline text-md text-right text-primary hover:text-secondary rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('password.request') }}" wire:navigate>
