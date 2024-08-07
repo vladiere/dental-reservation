@@ -10,6 +10,8 @@ use Livewire\Volt\Component;
 new class extends Component {
     public string $name = "";
     public string $email = "";
+    public string $role = "";
+    public string $gender = "";
 
     /**
      * Mount the component.
@@ -19,6 +21,8 @@ new class extends Component {
         $user_details = Details::find(Auth::user()->id);
         $this->name = $user_details->first_name;
         $this->email = Auth::user()->email;
+        $this->role = Auth::user()->role;
+        $this->gender = $user_details->gender;
     }
 
     /**
@@ -90,6 +94,9 @@ new class extends Component {
             <x-text-input wire:model="name" id="name" name="name" type="text" class="mt-1 block w-full" required autofocus autocomplete="name" />
             <x-input-error class="mt-2" :messages="$errors->get('name')" />
         </div>
+
+        <x-mary-input  class="rounded-lg" label="Register as" wire:model="role" required type="text" name="role" inline />
+        <x-mary-input  class="rounded-lg" label="Gender" wire:model="gender" required type="text" name="gender" inline />
 
         <div>
             <x-input-label for="email" :value="__('Email')" />

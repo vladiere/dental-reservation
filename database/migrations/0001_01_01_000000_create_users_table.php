@@ -13,13 +13,11 @@ return new class extends Migration {
     {
         Schema::create("users", function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Details::class);
+            $table->foreignIdFor(Details::class)->cascadeOnDelete();
             $table->string("email")->unique();
             $table->timestamp("email_verified_at")->nullable();
             $table->string("password");
-            $table
-                ->enum("role", ["dentist", "patient", "admin", "subadmin"])
-                ->default("patient");
+            $table->enum("role", ["dentist", "patient", "admin", "subadmin"]);
             $table->rememberToken();
             $table->timestamps();
         });

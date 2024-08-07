@@ -8,9 +8,21 @@ export default {
     "./storage/framework/views/*.php",
     "./resources/views/**/*.blade.php",
     "./vendor/robsontenorio/mary/src/View/Components/**/*.php",
+
+    "./resources/**/**/*.js",
+    "./app/View/Components/**/**/*.php",
+    "./app/Livewire/**/**/*.php",
   ],
   daisyui: {
-    themes: ["light", "dark", "emerald", "garden", "corporate"],
+    themes: [
+      "light",
+      "dark",
+      "emerald",
+      "garden",
+      "corporate",
+      "dim",
+      "sunset",
+    ],
   },
   theme: {
     extend: {
@@ -19,6 +31,6 @@ export default {
       },
     },
   },
-
+  darkMode: "class",
   plugins: [forms, require("daisyui")],
 };

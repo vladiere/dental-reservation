@@ -15,6 +15,8 @@ new #[Layout("layouts.guest")] #[Title("Login")] class extends Component {
     public string $first_name = "";
     #[Rule("required|string|max:255")]
     public string $last_name = "";
+    #[Rule("required|string|max:255")]
+    public string $middle_name = "";
     #[Rule("required|string|max:11")]
     public string $contact_no = "";
     #[Rule("required|string|max:255")]
@@ -47,10 +49,9 @@ new #[Layout("layouts.guest")] #[Title("Login")] class extends Component {
         $data = $this->validate();
         $data["password"] = Hash::make($data["password"]);
 
-        $data["gender"] = $this->check_gender($data["gender"]);
-        $data["role"] = $this->check_roles($data["role"]);
         $user_detail = Details::create([
             "first_name" => $data["first_name"],
+            "middle_name" => $data["middle_name"],
             "last_name" => $data["last_name"],
             "contact_no" => $data["contact_no"],
             "gender" => $data["gender"],
@@ -81,8 +82,8 @@ new #[Layout("layouts.guest")] #[Title("Login")] class extends Component {
     public function roles(): array
     {
         return [
-            ["id" => 1, "name" => "Patient"],
-            ["id" => 2, "name" => "Dentist"],
+            ["id" => "patient", "name" => "Patient"],
+            ["id" => "dentist", "name" => "Dentist"],
         ];
     }
 
@@ -97,7 +98,7 @@ new #[Layout("layouts.guest")] #[Title("Login")] class extends Component {
         }
     }
 
-    public function check_roles(string $role): string
+    public function check_role(string $role): string
     {
         if ($role == "1") {
             return "patient";
@@ -115,13 +116,14 @@ new #[Layout("layouts.guest")] #[Title("Login")] class extends Component {
         <div class="space-y-2 md:space-y-0 md:grid md:grid-cols-2 gap-2 ">
             <x-mary-input  class="rounded-lg" label="First name" wire:model="first_name" required type="text" name="first_name" autofocus autocomplete="first_name" inline />
             <x-mary-input  class="rounded-lg" label="Last name" wire:model="last_name" required type="text" name="last_name" autofocus autocomplete="last_name" inline />
+            <x-mary-input  class="rounded-lg" label="Middle name" wire:model="middle_name" required type="text" name="middle_name" autofocus autocomplete="middle_name" inline />
         </div>
 
         <!-- Contact address and number -->
         <div class="space-y-2 md:space-y-0 md:grid md:grid-cols-3 gap-2 ">
             <x-mary-input  class="rounded-lg" label="Complete address" wire:model="address" required type="text" name="address" autofocus autocomplete="address" inline />
             <x-mary-input  class="rounded-lg" label="Contact number" max="13" wire:model="contact_no" required type="text" name="contact_no" autofocus autocomplete="contact_no" inline />
-            <x-mary-select class="rounded-lg" label="Gender" :options="$this->genders()" required wire:model="gender" inline />
+            <x-mary-select class="rounded-lg" label="Gender" placeholder="Select your gender" :options="$this->genders()" required wire:model="gender" inline />
         </div>
 
         <!-- Login information -->
@@ -133,7 +135,7 @@ new #[Layout("layouts.guest")] #[Title("Login")] class extends Component {
 
         <!-- Account identity -->
         <div class="space-y-2 md:space-y-0 md:grid md:grid-cols-2 gap-2 ">
-           <x-mary-radio label="Register as?" :options="$this->roles()" wire:model="role" class="w-full rounded-lg text-dark" />
+           <x-mary-select class="rounded-lg" placeholder="Select one" label="Register as?" :options="$this->roles()" required wire:model="role" inline />
         </div>
 
         <x-slot:actions>
