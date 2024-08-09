@@ -11,7 +11,7 @@ new class extends Component {
     public string $name = "";
     public string $email = "";
     public string $role = "";
-    public string $gender = "";
+    public string|null $gender = "";
 
     /**
      * Mount the component.

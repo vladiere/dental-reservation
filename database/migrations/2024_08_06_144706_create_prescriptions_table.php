@@ -4,15 +4,20 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
     public function up(): void
     {
-        Schema::create('prescriptions', function (Blueprint $table) {
+        Schema::create("prescriptions", function (Blueprint $table) {
             $table->id();
+            $table->string("medicine_name")->nullable();
+            $table->string("subscription")->nullable();
+            $table->string("inscription")->nullable();
+            $table->string("signa")->nullable();
+            $table->dateTime("prescription_date", precision: 0);
+            $table->dateTime("expiration", precision: 0);
             $table->timestamps();
         });
     }
@@ -22,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('prescriptions');
+        Schema::dropIfExists("prescriptions");
     }
 };

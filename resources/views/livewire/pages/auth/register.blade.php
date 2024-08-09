@@ -25,8 +25,6 @@ new #[Layout("layouts.guest")] #[Title("Login")] class extends Component {
     public string $address = "";
     #[Rule("required|string|max:255")]
     public string $role = "";
-    #[Rule("nullable|string|max:255")]
-    public ?string $dental_clinic_name = null;
     #[Rule("required|string|max:255")]
     public string $email = "";
     #[Rule("required|string|max:255")]
@@ -56,7 +54,6 @@ new #[Layout("layouts.guest")] #[Title("Login")] class extends Component {
             "contact_no" => $data["contact_no"],
             "gender" => $data["gender"],
             "address" => $data["address"],
-            "dental_clinic_name" => $data["dental_clinic_name"],
         ]);
         $user = User::create([
             "details_id" => $user_detail->id,
@@ -113,7 +110,7 @@ new #[Layout("layouts.guest")] #[Title("Login")] class extends Component {
     <x-mary-form wire:submit="register" class="space-y-3">
         <!-- Full name -->
         <span class="mb-2 font-bold text-lg">Register your account.</span>
-        <div class="space-y-2 md:space-y-0 md:grid md:grid-cols-2 gap-2 ">
+        <div class="space-y-2 md:space-y-0 md:grid md:grid-cols-3 gap-2 ">
             <x-mary-input  class="rounded-lg" label="First name" wire:model="first_name" required type="text" name="first_name" autofocus autocomplete="first_name" inline />
             <x-mary-input  class="rounded-lg" label="Last name" wire:model="last_name" required type="text" name="last_name" autofocus autocomplete="last_name" inline />
             <x-mary-input  class="rounded-lg" label="Middle name" wire:model="middle_name" required type="text" name="middle_name" autofocus autocomplete="middle_name" inline />

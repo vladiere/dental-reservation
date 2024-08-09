@@ -13,11 +13,10 @@ return new class extends Migration {
     {
         Schema::create("dental_clinic", function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(User::class);
+            $table->foreignIdFor(User::class)->cascadeOnDelete();
             $table->string("clinic_name");
             $table->string("clinic_address");
-            $table->time("operate", precision: 0);
-            $table->string("day");
+            $table->string("map_link")->nullable();
             $table->timestamps();
         });
     }

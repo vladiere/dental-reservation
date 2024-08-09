@@ -1,4 +1,5 @@
 @include('layouts.body-header')
+
 {{-- NAVBAR mobile only --}}
 <x-mary-nav sticky class="lg:hidden">
     <x-slot:brand>

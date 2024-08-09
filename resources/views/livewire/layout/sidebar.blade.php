@@ -45,11 +45,14 @@ new class extends Component {
         <x-item_icon.i-i-admin />
     @elseif (auth()->user()->role === 'subadmin')
         <x-item_icon.i-i-subadmin />
-    @else
+    @elseif (auth()->user()->role === 'dentist')
         <x-item_icon.i-i-dentist />
+    @else
+        <x-item_icon.i-i-patient />
     @endif
     <x-mary-menu-sub title="Settings" icon="o-cog-6-tooth">
         <x-mary-menu-item title="Theme" icon="o-sun" darkTheme="sunset" lightTheme="corporate" @click="$dispatch('mary-toggle-theme')" />
+        <x-mary-menu-item title="Profile" icon="s-user-circle" link="{{ route('profile') }}" />
         <x-mary-menu-item title="Logout" icon="o-power" wire:click="logout" />
     </x-mary-menu-sub>
 </x-mary-menu>
