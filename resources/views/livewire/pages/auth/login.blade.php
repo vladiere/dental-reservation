@@ -1,6 +1,7 @@
 <?php
 
 use App\Livewire\Forms\LoginForm;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Livewire\Attributes\Layout;
 use Livewire\Volt\Component;
@@ -19,10 +20,32 @@ new #[Layout("layouts.guest")] class extends Component {
 
         Session::regenerate();
 
-        $this->redirectIntended(
-            default: route("dashboard", absolute: false),
-            navigate: true
-        );
+        if (Auth::user()->role == "dentist") {
+            $this->redirectIntended(
+                default: route("dentist_dashboard", absolute: false),
+                navigate: true
+            );
+        } elseif (Auth::user()->role == "patient") {
+            $this->redirectIntended(
+                default: route("patient_dashboard", absolute: false),
+                navigate: true
+            );
+        } elseif (Auth::user()->role == "admin") {
+            $this->redirectIntended(
+                default: route("admin_dashboard", absolute: false),
+                navigate: true
+            );
+        } elseif (Auth::user()->role == "subadmin") {
+            $this->redirectIntended(
+                default: route("subadmin_dashboard", absolute: false),
+                navigate: true
+            );
+        } else {
+            $this->redirectIntended(
+                default: route("dashboard", absolute: false),
+                navigate: true
+            );
+        }
     }
 };
 ?>

@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Carbon;
 
 class Details extends Model
 {
@@ -22,5 +23,15 @@ class Details extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, "id");
+    }
+
+    public function getCreatedAtAttribute($value)
+    {
+        return $value ? Carbon::parse($value)->format("m/d/Y") : null;
+    }
+
+    public function getUpdatedAtAttribute($value)
+    {
+        return $value ? Carbon::parse($value)->format("m/d/Y") : null;
     }
 }

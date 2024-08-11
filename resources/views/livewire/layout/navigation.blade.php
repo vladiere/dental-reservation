@@ -3,8 +3,7 @@
 use App\Livewire\Actions\Logout;
 use Livewire\Volt\Component;
 
-new class extends Component
-{
+new class extends Component {
     /**
      * Log the current user out of the application.
      */
@@ -12,9 +11,10 @@ new class extends Component
     {
         $logout();
 
-        $this->redirect('/', navigate: true);
+        $this->redirect(route("login"), navigate: true);
     }
-}; ?>
+};
+?>
 
 <nav x-data="{ open: false }" class="bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700">
     <!-- Primary Navigation Menu -->
@@ -30,9 +30,23 @@ new class extends Component
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" wire:navigate>
-                        {{ __('Dashboard') }}
-                    </x-nav-link>
+                    @if(auth()->user()->role === 'admin')
+                        <x-nav-link :href="route('admin_dashboard')" :active="request()->routeIs('admin_dashboard')" wire:navigate>
+                            {{ __('Dashboard') }}
+                        </x-nav-link>
+                    @elseif (auth()->user()->role === 'subadmin')
+                        <x-nav-link :href="route('subadmin_dashboard')" :active="request()->routeIs('subadmin_dashboard')" wire:navigate>
+                            {{ __('Dashboard') }}
+                        </x-nav-link>
+                    @elseif (auth()->user()->role === 'dentist')
+                        <x-nav-link :href="route('dentist_dashboard')" :active="request()->routeIs('dentist_dashboard')" wire:navigate>
+                            {{ __('Dashboard') }}
+                        </x-nav-link>
+                    @else
+                        <x-nav-link :href="route('patient_dashboard')" :active="request()->routeIs('patient_dashboard')" wire:navigate>
+                            {{ __('Dashboard') }}
+                        </x-nav-link>
+                    @endif
                 </div>
             </div>
 
@@ -52,9 +66,23 @@ new class extends Component
                     </x-slot>
 
                     <x-slot name="content">
-                        <x-dropdown-link :href="route('profile')" wire:navigate>
-                            {{ __('Profile') }}
-                        </x-dropdown-link>
+                        @if(auth()->user()->role === 'admin')
+                            <x-dropdown-link :href="route('admin_profile')" wire:navigate>
+                                {{ __('Profile') }}
+                            </x-dropdown-link>
+                        @elseif (auth()->user()->role === 'subadmin')
+                            <x-dropdown-link :href="route('subadmin_profile')" wire:navigate>
+                                {{ __('Profile') }}
+                            </x-dropdown-link>
+                        @elseif (auth()->user()->role === 'dentist')
+                            <x-dropdown-link :href="route('dentist_profile')" wire:navigate>
+                                {{ __('Profile') }}
+                            </x-dropdown-link>
+                        @else
+                            <x-dropdown-link :href="route('patient_profile')" wire:navigate>
+                                {{ __('Profile') }}
+                            </x-dropdown-link>
+                        @endif
 
                         <!-- Authentication -->
                         <button wire:click="logout" class="w-full text-start">
@@ -81,9 +109,23 @@ new class extends Component
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" wire:navigate>
-                {{ __('Dashboard') }}
-            </x-responsive-nav-link>
+            @if(auth()->user()->role === 'admin')
+                <x-nav-link :href="route('admin_dashboard')" :active="request()->routeIs('admin_dashboard')" wire:navigate>
+                    {{ __('Dashboard') }}
+                </x-nav-link>
+            @elseif (auth()->user()->role === 'subadmin')
+                <x-nav-link :href="route('subadmin_dashboard')" :active="request()->routeIs('subadmin_dashboard')" wire:navigate>
+                    {{ __('Dashboard') }}
+                </x-nav-link>
+            @elseif (auth()->user()->role === 'dentist')
+                <x-nav-link :href="route('dentist_dashboard')" :active="request()->routeIs('dentist_dashboard')" wire:navigate>
+                    {{ __('Dashboard') }}
+                </x-nav-link>
+            @else
+                <x-nav-link :href="route('patient_dashboard')" :active="request()->routeIs('patient_dashboard')" wire:navigate>
+                    {{ __('Dashboard') }}
+                </x-nav-link>
+            @endif
         </div>
 
         <!-- Responsive Settings Options -->
@@ -94,9 +136,23 @@ new class extends Component
             </div>
 
             <div class="mt-3 space-y-1">
-                <x-responsive-nav-link :href="route('profile')" wire:navigate>
-                    {{ __('Profile') }}
-                </x-responsive-nav-link>
+                @if(auth()->user()->role === 'admin')
+                    <x-dropdown-link :href="route('admin_profile')" wire:navigate>
+                        {{ __('Profile') }}
+                    </x-dropdown-link>
+                @elseif (auth()->user()->role === 'subadmin')
+                    <x-dropdown-link :href="route('subadmin_profile')" wire:navigate>
+                        {{ __('Profile') }}
+                    </x-dropdown-link>
+                @elseif (auth()->user()->role === 'dentist')
+                    <x-dropdown-link :href="route('dentist_profile')" wire:navigate>
+                        {{ __('Profile') }}
+                    </x-dropdown-link>
+                @else
+                    <x-dropdown-link :href="route('patient_profile')" wire:navigate>
+                        {{ __('Profile') }}
+                    </x-dropdown-link>
+                @endif
 
                 <!-- Authentication -->
                 <button wire:click="logout" class="w-full text-start">
