@@ -57,9 +57,9 @@ new #[Layout("layouts.guest")] class extends Component {
     <x-mary-form wire:submit="login">
         <!-- Email Address -->
         <span class="mb-2 font-bold text-lg">Signin to your account.</span>
-        <x-mary-input label="{{ __('E-mail') }}" wire:model="form.email" icon="o-envelope" class="rounded-lg" inline />
+        <x-mary-input label="{{ __('E-mail') }}" wire:model="form.email" icon="o-envelope" class="rounded-lg" />
         <!-- Password -->
-        <x-mary-input label="{{ __('Password') }}" wire:model="form.password" type="password" class="rounded-lg" icon="o-key" inline />
+        <x-mary-input label="{{ __('Password') }}" wire:model="form.password" type="password" class="rounded-lg" icon="o-key" />
 
         <!-- Remember Me -->
         <div class="space-y-3 md:space-y-0 md:grid md:grid-cols-2 items-center">

@@ -102,23 +102,23 @@ new class extends Component {
     <x-mary-form wire:submit="register" class="">
         <!-- Full name -->
         <div class="space-y-2 md:space-y-0 md:grid md:grid-cols-3 gap-2 ">
-            <x-mary-input  class="rounded-lg" label="First name" wire:model="first_name" required type="text" name="first_name" autofocus autocomplete="first_name" inline />
-            <x-mary-input  class="rounded-lg" label="Last name" wire:model="last_name" required type="text" name="last_name" autofocus autocomplete="last_name" inline />
-            <x-mary-input  class="rounded-lg" label="Middle name" wire:model="middle_name" required type="text" name="middle_name" autofocus autocomplete="middle_name" inline />
+            <x-mary-input  class="rounded-lg" label="First name" wire:model="first_name" required type="text" name="first_name" autofocus autocomplete="first_name" />
+            <x-mary-input  class="rounded-lg" label="Last name" wire:model="last_name" required type="text" name="last_name" autofocus autocomplete="last_name" />
+            <x-mary-input  class="rounded-lg" label="Middle name" wire:model="middle_name" required type="text" name="middle_name" autofocus autocomplete="middle_name" />
         </div>
 
         <!-- Contact address and number -->
         <div class="space-y-2 md:space-y-0 md:grid md:grid-cols-3 gap-2 ">
-            <x-mary-input  class="rounded-lg" label="Complete address" wire:model="address" required type="text" name="address" autofocus autocomplete="address" inline />
-            <x-mary-input  class="rounded-lg" label="Contact number" max="13" wire:model="contact_no" required type="text" name="contact_no" autofocus autocomplete="contact_no" inline />
-            <x-mary-select class="rounded-lg" label="Gender" placeholder="Select your gender" :options="$this->genders()" required wire:model="gender" inline />
+            <x-mary-input  class="rounded-lg" label="Complete address" wire:model="address" required type="text" name="address" autofocus autocomplete="address" />
+            <x-mary-input  class="rounded-lg" label="Contact number" max="13" wire:model="contact_no" required type="text" name="contact_no" autofocus autocomplete="contact_no" />
+            <x-mary-select class="rounded-lg" label="Gender" placeholder="Select your gender" :options="$this->genders()" required wire:model="gender" />
         </div>
 
         <!-- Login information -->
         <div class="space-y-2">
-            <x-mary-input  class="rounded-lg" label="E-mail" wire:model="email" icon="o-envelope" inline />
-            <x-mary-input  class="rounded-lg" label="Password" wire:model="password" type="password" icon="o-key" inline />
-            <x-mary-input  class="rounded-lg" label="Confirm Password" wire:model="password_confirmation" type="password" icon="o-key" inline />
+            <x-mary-input  class="rounded-lg" label="E-mail" wire:model="email" icon="o-envelope" />
+            <x-mary-input  class="rounded-lg" label="Password" wire:model="password" type="password" icon="o-key" />
+            <x-mary-input  class="rounded-lg" label="Confirm Password" wire:model="password_confirmation" type="password" icon="o-key" />
         </div>
 
         <x-slot:actions>
