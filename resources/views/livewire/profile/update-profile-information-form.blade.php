@@ -8,9 +8,10 @@ use Illuminate\Validation\Rule;
 use Livewire\Volt\Component;
 
 new class extends Component {
-    public string $name = "";
-    public string $email = "";
-    public string $role = "";
+    public string|null $first_name = "";
+    public string|null $middle_name = "";
+    public string|null $last_name = "";
+    public string|null $email = "";
     public string|null $gender = "";
 
     /**
@@ -18,11 +19,12 @@ new class extends Component {
      */
     public function mount(): void
     {
-        $user_details = Details::find(Auth::user()->id);
-        $this->name = $user_details->first_name;
-        $this->email = Auth::user()->email;
-        $this->role = Auth::user()->role;
-        $this->gender = $user_details->gender;
+        $user_details = Details::find(Auth::user()->details_id);
+        $this->first_name = $user_details->first_name ?? "N/A";
+        $this->middle_name = $user_details->middle_name ?? "N/A";
+        $this->last_name = $user_details->last_name ?? "N/A";
+        $this->email = Auth::user()->email ?? "N/A";
+        $this->gender = $user_details->gender ?? "N/A";
     }
 
     /**
@@ -77,7 +79,7 @@ new class extends Component {
 };
 ?>
 
-<section>
+<section class="w-full">
     <header>
         <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
             {{ __('Profile Information') }}
@@ -88,46 +90,39 @@ new class extends Component {
         </p>
     </header>
 
-    <form wire:submit="updateProfileInformation" class="mt-6 space-y-6">
-        <div>
-            <x-input-label for="name" :value="__('Name')" />
-            <x-text-input wire:model="name" id="name" name="name" type="text" class="mt-1 block w-full" required autofocus autocomplete="name" />
-            <x-input-error class="mt-2" :messages="$errors->get('name')" />
+    <x-mary-form wire:submit="updateProfileInformation" no-separator class="mt-6 space-y-3 w-full">
+        <div class="grid grid-cols-3 gap-3">
+            <x-mary-input  class="rounded-lg" label="First Name" wire:model="last_name" required inline />
+            <x-mary-input  class="rounded-lg" label="Middle Name" wire:model="last_name" required inline />
+            <x-mary-input  class="rounded-lg" label="Last Name" wire:model="last_name" required inline />
         </div>
 
-        <x-mary-input  class="rounded-lg" label="Register as" wire:model="role" required type="text" name="role" inline />
-        <x-mary-input  class="rounded-lg" label="Gender" wire:model="gender" required type="text" name="gender" inline />
+        <div class="grid grid-cols-2 gap-3">
+            <x-mary-input  class="rounded-lg" label="Gender" wire:model="gender" required inline />
+            <div>
+                <x-mary-input  class="rounded-lg" label="E-mail" wire:model="email" required inline />
+                @if (auth()->user() instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && ! auth()->user()->hasVerifiedEmail())
+                    <div>
+                        <p class="text-sm mt-2 text-gray-800 dark:text-gray-200">
+                            {{ __('Your email address is unverified.') }}
 
-        <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input wire:model="email" id="email" name="email" type="email" class="mt-1 block w-full" required autocomplete="username" />
-            <x-input-error class="mt-2" :messages="$errors->get('email')" />
-
-            @if (auth()->user() instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && ! auth()->user()->hasVerifiedEmail())
-                <div>
-                    <p class="text-sm mt-2 text-gray-800 dark:text-gray-200">
-                        {{ __('Your email address is unverified.') }}
-
-                        <button wire:click.prevent="sendVerification" class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800">
-                            {{ __('Click here to re-send the verification email.') }}
-                        </button>
-                    </p>
-
-                    @if (session('status') === 'verification-link-sent')
-                        <p class="mt-2 font-medium text-sm text-green-600 dark:text-green-400">
-                            {{ __('A new verification link has been sent to your email address.') }}
+                            <button wire:click.prevent="sendVerification" class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800">
+                                {{ __('Click here to re-send the verification email.') }}
+                            </button>
                         </p>
-                    @endif
-                </div>
-            @endif
+
+                        @if (session('status') === 'verification-link-sent')
+                            <p class="mt-2 font-medium text-sm text-green-600 dark:text-green-400">
+                                {{ __('A new verification link has been sent to your email address.') }}
+                            </p>
+                        @endif
+                    </div>
+                @endif
+            </div>
         </div>
 
-        <div class="flex items-center gap-4">
-            <x-primary-button>{{ __('Save') }}</x-primary-button>
-
-            <x-action-message class="me-3" on="profile-updated">
-                {{ __('Saved.') }}
-            </x-action-message>
-        </div>
-    </form>
+        <x-slot:actions>
+            <x-mary-button label="{{ __('Save') }}" type="submit" class="btn-primary rounded-md text-white" spinner="updateProfileInformation" />
+        </x-slot:actions>
+    </x-mary-form>
 </section>

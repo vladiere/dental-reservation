@@ -2,6 +2,7 @@
 <?php
 use App\Models\Details;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use Livewire\Volt\Component;
 use Mary\Traits\Toast;
 
@@ -21,22 +22,49 @@ new class extends Component {
     public string|null $address = "";
     public string|null $email = "";
     public string|null $dental_clinic = "";
-    public string|null $created = "";
-    public string|null $updated = "";
+    public int|null $id = null;
 
-    public function remove(int $id)
+    public function remove()
     {
-        $this->warning(
-            "Will delete #$id",
-            "It is fake.",
-            position: "toast-top toast-right"
-        );
+        $this->detail_modal = false;
+        $result = Details::find($this->id);
+        $result->acct_status = 1;
+        $result->save();
+
+        if ($result) {
+            $this->success(
+                "Deleted",
+                "You've removed $result->first_name successfully",
+                position: "toast-top toast-right"
+            );
+            $this->detail_modal = false;
+        } else {
+            $this->success(
+                "Failed",
+                "Something wen't wrong when removing $result->first_name.",
+                position: "toast-top toast-right"
+            );
+        }
     }
 
     public function patients(): Collection
     {
         return Details::query()
             ->leftJoin("users", "details.id", "=", "users.details_id")
+            ->select(
+                DB::raw('
+                details.id as detail_id,
+                details.first_name,
+                details.middle_name,
+                details.last_name,
+                details.gender,
+                details.contact_no,
+                details.address,
+                users.email,
+                users.created_at,
+                users.updated_at
+            ')
+            )
             ->where("users.role", "=", "dentist")
             ->where("details.acct_status", "=", 0)
             ->orderBy(...array_values($this->soryBy))
@@ -82,8 +110,7 @@ new class extends Component {
         $this->gender = $details["gender"] ?? "N/A";
         $this->email = $details["email"] ?? "N/A";
         $this->dental_clinic = $details["dental_clinic_name"] ?? "N/A";
-        $this->created = $details["created_at"];
-        $this->updated = $details["updated_at"];
+        $this->id = $details["detail_id"];
         $this->detail_modal = true;
     }
 };
@@ -108,16 +135,13 @@ new class extends Component {
                 <x-mary-input disabled  class="rounded-lg" label="Gender" wire:model="gender" />
             </div>
 
-            <div class="space-y-2 md:space-y-0 md:grid md:grid-cols-2 gap-2 ">
-                <x-mary-input disabled  class="rounded-lg" label="Created" wire:model="created" />
-                <x-mary-input disabled  class="rounded-lg" label="Updated" wire:model="updated" />
-            </div>
-
             <x-mary-input disabled  class="rounded-lg" label="E-mail" wire:model="email" />
             <x-mary-input disabled  class="rounded-lg" label="Complete address" wire:model="address"  />
-            <x-mary-input disabled  class="rounded-lg" label="Dental Clinic" wire:model="dental_clinic" />
 
         </div>
-        <x-mary-button label="Cancel" @click="$wire.detail_modal = false" />
+        <div class="flex gap-3 items-center mt-5">
+            <x-mary-button label="Cancel" @click="$wire.detail_modal = false" />
+            <x-mary-button icon="o-trash" class="btn-circle btn-ghost text-red-500" wire:click="remove" />
+        </div>
     </x-mary-modal>
 </div>

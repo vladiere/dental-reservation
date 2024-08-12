@@ -21,15 +21,29 @@ new class extends Component {
     public string|null $gender = "";
     public string|null $address = "";
     public string|null $email = "";
-    public string|null $dental_clinic = "";
+    public int|null $id = null;
 
-    public function remove(int $id)
+    public function remove()
     {
-        $this->warning(
-            "Will delete #$id",
-            "It is fake.",
-            position: "toast-top toast-right"
-        );
+        $this->detail_modal = false;
+        $result = Details::find($this->id);
+        $result->acct_status = 1;
+        $result->save();
+
+        if ($result) {
+            $this->success(
+                "Deleted",
+                "You've removed $result->first_name successfully",
+                position: "toast-top toast-right"
+            );
+            $this->detail_modal = false;
+        } else {
+            $this->success(
+                "Failed",
+                "Something wen't wrong when removing $result->first_name.",
+                position: "toast-top toast-right"
+            );
+        }
     }
 
     public function patients(): Collection
@@ -77,11 +91,6 @@ new class extends Component {
             ["key" => "last_name", "label" => "Last Name", "class" => "w-16"],
             ["key" => "gender", "label" => "Gender", "class" => "w-8"],
             [
-                "key" => "address",
-                "label" => "Complete Address",
-                "class" => "w-92",
-            ],
-            [
                 "key" => "contact_no",
                 "label" => "Contact No.",
                 "class" => "w-16",
@@ -92,8 +101,6 @@ new class extends Component {
                 "class" => "w-24",
                 "sortable" => false,
             ],
-            ["key" => "created_at", "label" => "Created", "class" => "w-16"],
-            ["key" => "updated_at", "label" => "Updated", "class" => "w-16"],
         ];
     }
 
@@ -106,7 +113,7 @@ new class extends Component {
         $this->address = $details["address"] ?? "N/A";
         $this->gender = $details["gender"] ?? "N/A";
         $this->email = $details["email"] ?? "N/A";
-        $this->dental_clinic = $details["dental_clinic_name"] ?? "N/A";
+        $this->id = $details["detail_id"];
         $this->detail_modal = true;
     }
 };
@@ -114,5 +121,30 @@ new class extends Component {
 
 <div class="w-full p-3">
     <x-mary-header title="List all Patients" separator progress-indicator />
-    <x-mary-table :headers="$this->headers()" :rows="$this->patients()" :sort-by="$this->sortBy()" />
+    <x-mary-table :headers="$this->headers()" :rows="$this->patients()" :sort-by="$this->sortBy()" @row-click="$wire.show_detail($event.detail)" />
+
+    <x-mary-modal wire:model="detail_modal" class="backdrop-blur">
+        <div class="space-y-2 mb-2">
+            <!-- Full name -->
+            <div class="space-y-2 md:space-y-0 md:grid md:grid-cols-3 gap-2 ">
+                <x-mary-input disabled  class="rounded-lg" label="First name" wire:model="first_name" />
+                <x-mary-input disabled  class="rounded-lg" label="Last name" wire:model="last_name" />
+                <x-mary-input disabled  class="rounded-lg" label="Middle name" wire:model="middle_name" />
+            </div>
+
+            <!-- Contact address and number -->
+            <div class="space-y-2 md:space-y-0 md:grid md:grid-cols-2 gap-2 ">
+                <x-mary-input disabled  class="rounded-lg" label="Contact number" wire:model="contact_no" />
+                <x-mary-input disabled  class="rounded-lg" label="Gender" wire:model="gender" />
+            </div>
+
+            <x-mary-input disabled  class="rounded-lg" label="E-mail" wire:model="email" />
+            <x-mary-input disabled  class="rounded-lg" label="Complete address" wire:model="address"  />
+
+        </div>
+        <div class="flex gap-3 items-center mt-5">
+            <x-mary-button label="Cancel" @click="$wire.detail_modal = false" />
+            <x-mary-button icon="o-trash" class="btn-circle btn-ghost text-red-500" wire:click="remove" />
+        </div>
+    </x-mary-modal>
 </div>

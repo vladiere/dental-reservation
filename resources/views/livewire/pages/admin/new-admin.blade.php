@@ -10,17 +10,17 @@ use Mary\Traits\Toast;
 new class extends Component {
     use Toast;
 
-    #[Rule("required|string|max:255")]
+    #[Rule("required|string|lowercase|max:255")]
     public string $first_name = "";
-    #[Rule("required|string|max:255")]
+    #[Rule("required|string|lowercase|max:255")]
     public string $last_name = "";
-    #[Rule("required|string|max:255")]
+    #[Rule("required|string|lowercase|max:255")]
     public string $middle_name = "";
     #[Rule("required|string|max:11")]
     public string $contact_no = "";
-    #[Rule("required|string|max:255")]
+    #[Rule("required|string|lowercase|max:255")]
     public string $gender = "";
-    #[Rule("required|string|max:255")]
+    #[Rule("required|string|lowercase|max:255")]
     public string $address = "";
     #[Rule("required|string|max:255")]
     public string $email = "";
