@@ -64,7 +64,17 @@ new #[Layout("layouts.guest")] #[Title("Login")] class extends Component {
 
         Auth::login($user);
 
-        $this->redirect(route("dashboard", absolute: false), navigate: true);
+        if (Auth::user()->role === "patient") {
+            $this->redirect(
+                route("patient_dashboard", absolute: false),
+                navigate: true
+            );
+        } else {
+            $this->redirect(
+                route("dentist_dashboard", absolute: false),
+                navigate: true
+            );
+        }
     }
 
     public function genders(): array

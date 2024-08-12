@@ -91,14 +91,14 @@ new class extends Component {
     </header>
 
     <x-mary-form wire:submit="updateProfileInformation" no-separator class="mt-6 space-y-3 w-full">
-        <div class="grid grid-cols-3 gap-3">
+        <div class="grid grid-cols-2 gap-3 items-center">
             <x-mary-input  class="rounded-lg" label="First Name" wire:model="last_name" required inline />
             <x-mary-input  class="rounded-lg" label="Middle Name" wire:model="last_name" required inline />
             <x-mary-input  class="rounded-lg" label="Last Name" wire:model="last_name" required inline />
+            <x-mary-input readonly class="rounded-lg" label="Gender" wire:model="gender" required inline />
         </div>
 
         <div class="grid grid-cols-2 gap-3">
-            <x-mary-input  class="rounded-lg" label="Gender" wire:model="gender" required inline />
             <div>
                 <x-mary-input  class="rounded-lg" label="E-mail" wire:model="email" required inline />
                 @if (auth()->user() instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && ! auth()->user()->hasVerifiedEmail())
