@@ -33,6 +33,7 @@ Route::prefix("dentist")
     ->group(function () {
         Route::view("", "dashboard")->name("dentist_dashboard");
         Route::view("profile", "profile")->name("dentist_profile");
+        Route::view("clinic", "dentist.clinic")->name("clinic");
     });
 
 Route::prefix("patient")

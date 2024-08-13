@@ -1,3 +1,3 @@
-<x-dentist-layout>
+<x-main-layout>
     <livewire:pages.admin.lists />
-</x-dentist-layout>
+</x-main-layout>

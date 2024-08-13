@@ -1,4 +1,4 @@
-<x-dentist-layout>
+<x-main-layout>
 
     {{-- MAIN --}}
     <!-- HEADER -->
@@ -13,4 +13,4 @@
             </div>
         </div>
     </div>
-</x-dentist-layout>
+</x-main-layout>
