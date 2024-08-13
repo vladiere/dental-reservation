@@ -17,7 +17,8 @@
         "mallardduck/blade-boxicons": "^2.4",
         "owenvoke/blade-fontawesome": "^2.6",
         "postare/blade-mdi": "^1.0",
-        "robsontenorio/mary": "^1.35"
+        "robsontenorio/mary": "^1.35",
+        "saade/blade-iconsax": "^1.2"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",

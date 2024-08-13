@@ -11,6 +11,12 @@
                 <livewire:profile.update-profile-information-form />
             </div>
 
+            @if(auth()->user()->role == 'dentist')
+                <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
+                    <livewire:profile.upload-profile />
+                </div>
+            @endif
+
             <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
                 <livewire:profile.update-password-form />
             </div>

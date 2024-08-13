@@ -4,15 +4,20 @@ use Livewire\Attributes\Rule;
 use Mary\Traits\Toast;
 
 use Livewire\Volt\Component;
+use Livewire\WithFileUploads;
 
 new class extends Component {
-    use Toast;
+    use Toast, WithFileUploads;
 
-    #[Rule("required|meme:png,jpg,avif,jpeg|max:1024")]
+    #[Rule("required|mimes:png,jpg,avif,jpeg,webp|max:1025")]
     public $file;
 
-    public function upload(): void
+    public function uploadImg(): void
     {
+        $this->success(
+            "Profile upload success",
+            position: "toast-top toast-right"
+        );
         return;
     }
 };
@@ -29,9 +34,12 @@ new class extends Component {
         </p>
     </header>
 
-    <x-mary-form>
-        <x-file wire:model="file" accept="image/png" crop-after-change>
-            <img src="{{ $user->avatar ?? '/empty-user.jpg' }}" class="h-40 rounded-lg" />
-        </x-file>
+    <x-mary-form wire:submit="uploadImg" no-separator class="mt-6 space-y-3 w-full">
+        <x-mary-file wire:model="file" accept="image/png, image/avif, image/jpg, image/jpeg, image/webp" crop-after-change>
+            <img src="{{ $user->avatar ?? asset('upload-img-2.jpg') }}" class="h-40 rounded-lg" />
+        </x-mary-file>
+        <x-slot:actions>
+            <x-mary-button label="{{ __('Save') }}" type="submit" class="btn-primary rounded-md text-white" spinner="uploadImg" />
+        </x-slot:actions>
     </x-mary-form>
 </section>
