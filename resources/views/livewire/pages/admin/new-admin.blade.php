@@ -10,17 +10,17 @@ use Mary\Traits\Toast;
 new class extends Component {
     use Toast;
 
-    #[Rule("required|string|lowercase|max:255")]
+    #[Rule("required|string|max:255")]
     public string $first_name = "";
-    #[Rule("required|string|lowercase|max:255")]
+    #[Rule("required|string|max:255")]
     public string $last_name = "";
-    #[Rule("required|string|lowercase|max:255")]
+    #[Rule("required|string|max:255")]
     public string $middle_name = "";
     #[Rule("required|string|max:11")]
     public string $contact_no = "";
-    #[Rule("required|string|lowercase|max:255")]
+    #[Rule("required|string|max:255")]
     public string $gender = "";
-    #[Rule("required|string|lowercase|max:255")]
+    #[Rule("required|string|max:255")]
     public string $address = "";
     #[Rule("required|string|max:255")]
     public string $email = "";
@@ -38,12 +38,12 @@ new class extends Component {
         $data["password"] = Hash::make($data["password"]);
 
         $user_detail = Details::create([
-            "first_name" => $data["first_name"],
-            "middle_name" => $data["middle_name"],
-            "last_name" => $data["last_name"],
+            "first_name" => Str::of($data["first_name"])->lower(),
+            "middle_name" => Str::of($data["middle_name"])->lower(),
+            "last_name" => Str::of($data["last_name"])->lower(),
             "contact_no" => $data["contact_no"],
-            "gender" => $data["gender"],
-            "address" => $data["address"],
+            "gender" => Str::of($data["gender"])->lower(),
+            "address" => Str::of($data["address"])->lower(),
         ]);
 
         $user = User::create([
@@ -99,7 +99,7 @@ new class extends Component {
     <!-- HEADER -->
     <x-mary-header title="Adding new Admin" separator progress-indicator />
 
-    <x-mary-form wire:submit="register" class="">
+    <x-mary-form wire:submit="register" >
         <!-- Full name -->
         <div class="space-y-2 md:space-y-0 md:grid md:grid-cols-3 gap-2 ">
             <x-mary-input  class="rounded-lg" label="First name" wire:model="first_name" required type="text" name="first_name" autofocus autocomplete="first_name" />

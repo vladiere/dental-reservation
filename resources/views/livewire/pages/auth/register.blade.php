@@ -4,26 +4,26 @@ use App\Models\Details;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rules;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Rule;
 use Livewire\Attributes\Title;
 use Livewire\Volt\Component;
+use Illuminate\Support\Str;
 
 new #[Layout("layouts.guest")] #[Title("Login")] class extends Component {
-    #[Rule("required|string|lowercase|max:255")]
+    #[Rule("required|string|max:255")]
     public string $first_name = "";
-    #[Rule("required|string|lowercase|max:255")]
+    #[Rule("required|string|max:255")]
     public string $last_name = "";
-    #[Rule("required|string|lowercase|max:255")]
+    #[Rule("required|string|max:255")]
     public string $middle_name = "";
     #[Rule("required|string|max:11")]
     public string $contact_no = "";
-    #[Rule("required|string|lowercase|max:255")]
+    #[Rule("required|string|max:255")]
     public string $gender = "";
-    #[Rule("required|string|lowercase|max:255")]
+    #[Rule("required|string|max:255")]
     public string $address = "";
-    #[Rule("required|string|lowercase|max:255")]
+    #[Rule("required|string|max:255")]
     public string $role = "";
     #[Rule("required|string|max:255")]
     public string $email = "";
@@ -48,12 +48,12 @@ new #[Layout("layouts.guest")] #[Title("Login")] class extends Component {
         $data["password"] = Hash::make($data["password"]);
 
         $user_detail = Details::create([
-            "first_name" => $data["first_name"],
-            "middle_name" => $data["middle_name"],
-            "last_name" => $data["last_name"],
+            "first_name" => Str::of($data["first_name"])->lower(),
+            "middle_name" => Str::of($data["middle_name"])->lower(),
+            "last_name" => Str::of($data["last_name"])->lower(),
             "contact_no" => $data["contact_no"],
-            "gender" => $data["gender"],
-            "address" => $data["address"],
+            "gender" => Str::of($data["gender"])->lower(),
+            "address" => Str::of($data["address"])->lower(),
         ]);
         $user = User::create([
             "details_id" => $user_detail->id,

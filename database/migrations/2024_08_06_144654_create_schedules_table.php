@@ -1,7 +1,6 @@
 <?php
 
 use App\Models\DentalClinic;
-use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -14,11 +13,21 @@ return new class extends Migration {
     {
         Schema::create("schedules", function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(User::class)->cascadeOnDelete();
             $table->foreignIdFor(DentalClinic::class)->cascadeOnDelete();
             $table->string("available_day")->nullable();
-            $table->string("available_time")->nullable();
+            $table->time("time_from", precision: 0)->nullable();
+            $table->time("time_to", precision: 0)->nullable();
+            // 0 - available
+            // 1 - unavailable
+            // 2 - busy
+            // 3 - not around
             $table->tinyInteger("doctor_status")->default(0);
+            // 0 - unavailable
+            // 1 - available
+            // 2 - maintenance
+            // 3 - close
+            // 4 - remove
+            $table->tinyInteger("clinic_status")->default(0);
             $table->timestamps();
         });
     }
