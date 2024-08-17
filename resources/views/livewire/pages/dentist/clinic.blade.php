@@ -26,6 +26,8 @@ new class extends Component {
     public string|null $clinic_long = "";
     #[Rule("nullable|string|max:255")]
     public string|null $clinic_lat = "";
+    #[Rule("nullable|string|max:255")]
+    public string|null $clinic_status = "";
 
     // operating
     #[Rule("required")]
@@ -238,12 +240,12 @@ new class extends Component {
                     <x-mary-datetime label="Time From" wire:model="time_from" icon="o-calendar" type="time" />
                     <x-mary-datetime label="Time To" wire:model="time_to" icon="o-calendar" type="time" />
                 </div>
-                <x-select
+                <x-mary-select
                     label="Alternative"
-                    :options="$users"
+                    :options="$this->clinic_status()"
                     placeholder="Clinic Status"
                     placeholder-value="0" {{-- Set a value for placeholder. Default is `null` --}}
-                    wire:model="$this->clinic_status()" />
+                    wire:model="clinic_status" />
             </div>
 
             <x-slot:actions>
