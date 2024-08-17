@@ -55,6 +55,7 @@ new class extends Component {
         $this->map_link = "";
         $this->clinic_long = "";
         $this->clinic_lat = "";
+        $this->clinic_status = "";
         $this->register_modal = false;
     }
 
@@ -101,7 +102,7 @@ new class extends Component {
         return;
     }
 
-    public function clinic_status(): array
+    public function status(): array
     {
         // 0 - unavailable
         // 1 - available
@@ -242,7 +243,7 @@ new class extends Component {
                 </div>
                 <x-mary-select
                     label="Alternative"
-                    :options="$this->clinic_status()"
+                    :options="$this->status()"
                     placeholder="Clinic Status"
                     placeholder-value="0" {{-- Set a value for placeholder. Default is `null` --}}
                     wire:model="clinic_status" />
