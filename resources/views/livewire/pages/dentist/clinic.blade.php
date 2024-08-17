@@ -99,41 +99,72 @@ new class extends Component {
         return;
     }
 
+    public function clinic_status(): array
+    {
+        // 0 - unavailable
+        // 1 - available
+        // 2 - maintenance
+        // 3 - close
+        // 4 - remove
+        return [
+            [
+                "id" => 0,
+                "name" => "Unavailable",
+            ],
+            [
+                "id" => 1,
+                "name" => "Available",
+            ],
+            [
+                "id" => 2,
+                "name" => "Maintenance",
+            ],
+            [
+                "id" => 3,
+                "name" => "Closed",
+            ],
+            [
+                "id" => 4,
+                "name" => "Removed",
+            ],
+        ];
+    }
+
     public function options_days(): array
     {
         return [
             [
-                "id" => "monday",
+                "id" => 1,
                 "name" => "Monday",
                 "avatar" => "",
             ],
             [
-                "id" => "tuesday",
+                "id" => 2,
                 "name" => "Tuesday",
                 "avatar" => "",
             ],
             [
-                "id" => "wednesday",
+                "id" => 3,
                 "name" => "Wednesday",
                 "avatar" => "",
             ],
             [
-                "id" => "thursday",
+                "id" => 4,
                 "name" => "Thursday",
                 "avatar" => "",
             ],
             [
-                "id" => "friday",
+                "id" => 5,
                 "name" => "Friday",
                 "avatar" => "",
             ],
             [
-                "id" => "saturday",
+                "id" => 6,
                 "name" => "Saturday",
                 "avatar" => "",
             ],
             [
-                "id" => "sunday",
+                "id" => 7,
                 "name" => "Sunday",
                 "avatar" => "",
             ],
@@ -207,6 +238,12 @@ new class extends Component {
                     <x-mary-datetime label="Time From" wire:model="time_from" icon="o-calendar" type="time" />
                     <x-mary-datetime label="Time To" wire:model="time_to" icon="o-calendar" type="time" />
                 </div>
+                <x-select
+                    label="Alternative"
+                    :options="$users"
+                    placeholder="Clinic Status"
+                    placeholder-value="0" {{-- Set a value for placeholder. Default is `null` --}}
+                    wire:model="$this->clinic_status()" />
             </div>
 
             <x-slot:actions>
