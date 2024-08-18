@@ -12,7 +12,7 @@ new class extends Component {
 
     public function mount(int $clinic_id): void
     {
-        $this->schedule = DentalClinic::rightjoin(
+        $result = DentalClinic::rightjoin(
             "schedules",
             "dental_clinic.id",
             "=",
@@ -20,16 +20,16 @@ new class extends Component {
         )
             ->where("dental_clinic.id", "=", $clinic_id)
             ->get();
+
+        $this->schedule = $result[0];
     }
 };
 ?>
 
 <div class="space-y-4">
-    {{ $schedule }}
-    <!-- <div class="text-lg font-bold">{{ $schedule['clinic_name'] }}</div>
-    <iframe width="100%" height="170" frameborder="0" src= "https://maps.google.com/maps?f=q&source=s_q&hl=en&geocode=&q='{{ str_replace(',', '', str_replace(' ', '+', $schedule['clinic_address'])) }}' &z=14&output=embed"></iframe>
+    <div class="text-lg font-bold">{{ $schedule['clinic_name'] }}</div>
     <div class="text-sm font-normal">{{ $schedule['clinic_address'] }}</div>
-    <x-mary-button icon="o-globe-alt" link="{{ $clinic['map_link'] }}" external tooltip="Goto google maps" class="btn-circle btn-ghost btn-sm" />
+    <x-mary-button icon="o-globe-alt" link="{{ $schedule['map_link'] }}" external tooltip="Goto google maps" class="btn-circle btn-ghost btn-sm" />
     <div class="space-y-3">
         <div class="text-lg font-bold">Schedule</div>
         @if($schedule['dental_clinic_id'] != null)
@@ -48,5 +48,5 @@ new class extends Component {
         @else
             <div class="text-lg font-bold text-center">No schedule is set in this clinic.</div>
         @endif
-    </div> -->
+    </div>
 </div>
