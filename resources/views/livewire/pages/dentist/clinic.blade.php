@@ -1,7 +1,6 @@
 <?php
 
 use App\Models\DentalClinic;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Rule;
 use Livewire\Volt\Component;
@@ -15,6 +14,8 @@ new class extends Component {
     public bool $register_modal = false;
     public bool $operating_modal = false;
     public int|null $clinic_id = null;
+    public bool $right_drawer = false;
+    public bool $left_drawer = false;
 
     #[Rule("required|string|max:255")]
     public string $clinic_name = "";
@@ -26,16 +27,6 @@ new class extends Component {
     public string|null $clinic_long = "";
     #[Rule("nullable|string|max:255")]
     public string|null $clinic_lat = "";
-    #[Rule("nullable|string|max:255")]
-    public string|null $clinic_status = "";
-
-    // operating
-    #[Rule("required")]
-    public Collection $days;
-    #[Rule("required")]
-    public string $time_from = "";
-    #[Rule("required")]
-    public string $time_to = "";
 
     public function mount(): void
     {
@@ -45,7 +36,13 @@ new class extends Component {
     public function show_set_operation(int $id): void
     {
         $this->clinic_id = $id;
-        $this->operating_modal = true;
+        $this->right_drawer = true;
+    }
+
+    public function show_schedules(int $id): void
+    {
+        $this->clinic_id = $id;
+        $this->left_drawer = true;
     }
 
     public function clear_inputs(): void
@@ -83,6 +80,7 @@ new class extends Component {
         ]);
 
         if ($result) {
+            $this->reset();
             $this->clear_inputs();
             $this->get_clinics();
             $this->success(
@@ -95,83 +93,6 @@ new class extends Component {
                 position: "toast-top top-right"
             );
         }
-    }
-
-    public function set_operating_hours(): void
-    {
-        return;
-    }
-
-    public function status(): array
-    {
-        // 0 - unavailable
-        // 1 - available
-        // 2 - maintenance
-        // 3 - close
-        // 4 - remove
-        return [
-            [
-                "id" => 0,
-                "name" => "Unavailable",
-            ],
-            [
-                "id" => 1,
-                "name" => "Available",
-            ],
-            [
-                "id" => 2,
-                "name" => "Maintenance",
-            ],
-            [
-                "id" => 3,
-                "name" => "Closed",
-            ],
-            [
-                "id" => 4,
-                "name" => "Removed",
-            ],
-        ];
-    }
-
-    public function options_days(): array
-    {
-        return [
-            [
-                "id" => 1,
-                "name" => "Monday",
-                "avatar" => "",
-            ],
-            [
-                "id" => 2,
-                "name" => "Tuesday",
-                "avatar" => "",
-            ],
-            [
-                "id" => 3,
-                "name" => "Wednesday",
-                "avatar" => "",
-            ],
-            [
-                "id" => 4,
-                "name" => "Thursday",
-                "avatar" => "",
-            ],
-            [
-                "id" => 5,
-                "name" => "Friday",
-                "avatar" => "",
-            ],
-            [
-                "id" => 6,
-                "name" => "Saturday",
-                "avatar" => "",
-            ],
-            [
-                "id" => 7,
-                "name" => "Sunday",
-                "avatar" => "",
-            ],
-        ];
     }
 };
 ?>
@@ -195,6 +116,7 @@ new class extends Component {
                                 @endif
                                 <x-mary-button icon="o-clock" tooltip="Set operating hours" class="btn-circle btn-ghost btn-sm" @click="$wire.show_set_operation({{ $clinic['id'] }})" />
                             </x-slot:menu>
+                            <x-mary-button icon="iconpark.schedule-o" tooltip="Check dental schedules" class="btn-circle btn-ghost btn-sm" @click="$wire.show_schedules({{ $clinic['id'] }} )" />
                         </x-mary-card>
                     @endforeach
                 </div>
@@ -228,31 +150,18 @@ new class extends Component {
         </x-mary-form>
     </x-mary-modal>
 
-    <x-mary-modal wire:model="operating_modal" title="{{ __('Set Operating Hours') }}" no-separator>
-        <x-mary-form wire:submit="set_operating_hours" no-separator>
-            <div class="space-y-4">
-                <x-mary-choices-offline
-                    label="Operating Days"
-                    wire:model="days"
-                    :options="$this->options_days()"
-                    allow-all
-                />
-                <div class="grid grid-cols-2 gap-2 items-center">
-                    <x-mary-datetime label="Time From" wire:model="time_from" icon="o-calendar" type="time" />
-                    <x-mary-datetime label="Time To" wire:model="time_to" icon="o-calendar" type="time" />
-                </div>
-                <x-mary-select
-                    label="Alternative"
-                    :options="$this->status()"
-                    placeholder="Clinic Status"
-                    placeholder-value="0" {{-- Set a value for placeholder. Default is `null` --}}
-                    wire:model="clinic_status" />
-            </div>
+    <x-mary-drawer wire:model="right_drawer" class="w-11/12 lg:w-1/3" right>
+        <div class="text-lg font-bold">Set clinic operating hours</div>
+        @if ($this->clinic_id != null)
+            <livewire:pages.dentist.components.set-schedules :clinic_id="$this->clinic_id" />
+        @endif
+    </x-mary-drawer>
 
-            <x-slot:actions>
-                <x-mary-button label="{{ __('Cancel') }}" @click="$wire.operating_modal = false" />
-                <x-mary-button label="{{ __('Confirm') }}" class="btn-primary" type="submit" spinner="set_operating_hours" />
-            </x-slot:actions>
-        </x-mary-form>
-    </x-mary-modal>
+    <x-mary-drawer wire:model="left_drawer" class="w-11/12 lg:w-1/3">
+        <div>Clinic schedules</div>
+        @if($this->clinic_id != null)
+            <livewire:pages.dentist.components.get-schedules :clinic_id="$this->clinic_id" />
+        @endif
+        <x-mary-button label="Close" @click="$wire.left_drawer = false" />
+    </x-mary-drawer>
 </div>
