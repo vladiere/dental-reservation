@@ -112,7 +112,7 @@ new class extends Component {
                             </x-slot:figure>
                             <x-slot:menu>
                                 @if ($clinic['map_link'] != null)
-                                    <x-mary-button icon="iconsax.out-info-circle" link="{{ $clinic['map_link'] }}" external tooltip="Goto google maps" class="btn-circle btn-ghost btn-sm" />
+                                    <x-mary-button icon="o-globe-alt" link="{{ $clinic['map_link'] }}" external tooltip="Goto google maps" class="btn-circle btn-ghost btn-sm" />
                                 @endif
                                 <x-mary-button icon="o-clock" tooltip="Set operating hours" class="btn-circle btn-ghost btn-sm" @click="$wire.show_set_operation({{ $clinic['id'] }})" />
                             </x-slot:menu>

@@ -34,6 +34,12 @@ Route::prefix("dentist")
         Route::view("", "dashboard")->name("dentist_dashboard");
         Route::view("profile", "profile")->name("dentist_profile");
         Route::view("clinic", "dentist.clinic")->name("clinic");
+        Route::view("services", "dentist.service")->name("service");
+        Route::view("patients", "dentist.patient")->name("patient");
+        Route::view("reservations", "dentist.reservation")->name("reservation");
+        Route::view("notifications", "dentist.notification")->name(
+            "notification"
+        );
     });
 
 Route::prefix("patient")
