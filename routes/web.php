@@ -31,10 +31,9 @@ Route::prefix("subadmin")
 Route::prefix("dentist")
     ->middleware(["auth", "verified", "rolemanager:dentist"])
     ->group(function () {
-        Route::view("", "dashboard")->name("dentist_dashboard");
+        Route::view("/", "dashboard")->name("dentist_dashboard");
         Route::view("profile", "profile")->name("dentist_profile");
         Route::view("clinic", "dentist.clinic")->name("clinic");
-        Route::view("services", "dentist.service")->name("service");
         Route::view("patients", "dentist.patient")->name("patient");
         Route::view("reservations", "dentist.reservation")->name("reservation");
         Route::view("notifications", "dentist.notification")->name(

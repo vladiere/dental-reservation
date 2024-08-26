@@ -62,14 +62,12 @@ new class extends Component {
 
         if ($clinics) {
             $this->clinics = $clinics;
-        } else {
-            $this->clinics = null;
         }
     }
 
     public function register_clinic(): void
     {
-        $data = $this->validate();
+        $data = $validate();
         $result = DentalClinic::create([
             "user_id" => Auth::user()->id,
             "clinic_name" => Str::of($data["clinic_name"])->lower(),
@@ -152,16 +150,19 @@ new class extends Component {
 
     <x-mary-drawer wire:model="right_drawer" class="w-11/12 lg:w-1/3" right>
         <div class="text-lg font-bold">Set clinic operating hours</div>
-        @if ($this->clinic_id != null)
-            <livewire:pages.dentist.components.set-schedules :clinic_id="$this->clinic_id" />
+        @if ($clinic_id != null)
+            <livewire:pages.dentist.components.set-schedules :clinic_id="$clinic_id" />
         @endif
     </x-mary-drawer>
 
     <x-mary-drawer wire:model="left_drawer" class="w-11/12 lg:w-1/3">
         <div>Clinic schedules</div>
-        @if($this->clinic_id != null)
-            <livewire:pages.dentist.components.get-schedules :clinic_id="$this->clinic_id" />
+        @if($clinic_id != null)
+            <livewire:pages.dentist.components.get-schedules :clinic_id="$clinic_id" />
         @endif
-        <x-mary-button label="Close" @click="$wire.left_drawer = false" />
+        <div class="flex justify-between items-center">
+            <x-mary-button label="Close" @click="$wire.left_drawer = false" />
+            <x-mary-button class="btn-primary text-white" label="Clinic Services" />
+        </div>
     </x-mary-drawer>
 </div>

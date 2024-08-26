@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "176e54e3d85c16b7c0a1b1470d711ce7",
+    "content-hash": "0f62812ef4892254f22026c095643f4d",
     "packages": [
         {
             "name": "andreiio/blade-remix-icon",
@@ -563,6 +563,78 @@
                 }
             ],
             "time": "2024-02-28T15:08:03+00:00"
+        },
+        {
+            "name": "codeat3/blade-majestic-icons",
+            "version": "2.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/codeat3/blade-majesticons.git",
+                "reference": "cefcb47ccc775a56e68851084602b14da4ad7111"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/codeat3/blade-majesticons/zipball/cefcb47ccc775a56e68851084602b14da4ad7111",
+                "reference": "cefcb47ccc775a56e68851084602b14da4ad7111",
+                "shasum": ""
+            },
+            "require": {
+                "blade-ui-kit/blade-icons": "^1.1",
+                "illuminate/support": "^8.0|^9.0|^10.0|^11.0",
+                "php": "^7.4|^8.0"
+            },
+            "require-dev": {
+                "codeat3/blade-icon-generation-helpers": "^0.8",
+                "codeat3/phpcs-styles": "^1.0",
+                "orchestra/testbench": "^6.0|^7.0|^8.0|^9.0",
+                "phpunit/phpunit": "^9.0|^10.5|^11.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Codeat3\\BladeMajesticIcons\\BladeMajesticIconsServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Codeat3\\BladeMajesticIcons\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Swapnil Sarwe",
+                    "homepage": "https://swapnilsarwe.com"
+                },
+                {
+                    "name": "Dries Vints",
+                    "homepage": "https://driesvints.com"
+                }
+            ],
+            "description": "A package to easily make use of Majestic Icons in your Laravel Blade views.",
+            "homepage": "https://github.com/codeat3/blade-majestic-icons",
+            "keywords": [
+                "blade",
+                "icons",
+                "laravel",
+                "majestic"
+            ],
+            "support": {
+                "issues": "https://github.com/codeat3/blade-majesticons/issues",
+                "source": "https://github.com/codeat3/blade-majesticons/tree/2.1.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/swapnilsarwe",
+                    "type": "github"
+                }
+            ],
+            "time": "2024-02-29T17:17:19+00:00"
         },
         {
             "name": "davidhsianturi/blade-bootstrap-icons",
