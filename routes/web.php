@@ -55,6 +55,15 @@ Route::prefix("patient")
     ->group(function () {
         Route::view("", "dashboard")->name("patient_dashboard");
         Route::view("profile", "profile")->name("patient_profile");
+        Route::view("doctor", "patient.doctor")->name("patient_doctor");
+        Route::prefix("clinic")->group(function () {
+            Route::view("", "patient.clinic")->name("patient_clinic");
+            Route::get("/{clinic_id?}", function (?int $clinic_id) {
+                return view("patient.one-clinic");
+            })
+                ->where("id", "[0-9]+")
+                ->name("one_clinic");
+        });
     });
 
 require __DIR__ . "/auth.php";

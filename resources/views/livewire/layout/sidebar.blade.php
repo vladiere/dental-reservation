@@ -54,7 +54,7 @@ new class extends Component {
         <x-item_icon.i-i-patient />
     @endif
     <x-mary-menu-sub title="Settings" icon="o-cog-6-tooth">
-        <x-mary-menu-item title="Theme" icon="o-sun" darkTheme="sunset" lightTheme="corporate" @click="$dispatch('mary-toggle-theme')" />
+        <x-mary-menu-item title="Theme" icon="o-sun" @click="$dispatch('mary-toggle-theme')" />
         @if(auth()->user()->role === 'admin')
             <x-mary-menu-item title="Profile" icon="iconsax.lin-profile-circle" link="{{ route('admin_profile') }}" />
         @elseif (auth()->user()->role === 'subadmin')
@@ -64,6 +64,6 @@ new class extends Component {
         @else
             <x-mary-menu-item title="Profile" icon="iconsax.lin-profile-circle" link="{{ route('patient_profile') }}" />
         @endif
-        <x-mary-menu-item title="Logout" icon="o-power" wire:click="logout" />
+        <x-mary-menu-item title="Logout" icon="o-power" wire:click="logout" spinner />
     </x-mary-menu-sub>
 </x-mary-menu>

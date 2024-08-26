@@ -11,5 +11,5 @@ class ProfileImg extends Model
 
     protected $table = "profile_img";
 
-    protected $fillables = ["user_id", "img_path", "caption"];
+    protected $fillable = ["user_id", "img_path", "caption"];
 }
