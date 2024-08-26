@@ -19,6 +19,7 @@ new class extends Component {
     public int $clinic_id = 0;
     public int $service_delete_id = 0;
     public int $service_id = 0;
+    public int $service_status = 0;
 
     // Service information fields
     public string $service_name = "";
@@ -51,7 +52,8 @@ new class extends Component {
                     services.service_name,
                     services.service_price,
                     services.service_description,
-                    services.updated_at
+                    services.updated_at,
+                    services.service_status
                 ')
             )
             ->where("services.dental_clinic_id", "=", $this->clinic_id)
@@ -186,6 +188,7 @@ new class extends Component {
         $this->service_name = $details["service_name"];
         $this->service_desc = $details["service_description"];
         $this->service_price = $details["service_price"];
+        $this->service_status = $details["service_status"];
         $this->service_modal = true;
         return;
     }
@@ -226,20 +229,21 @@ new class extends Component {
         $this->fetchServices();
     }
 
-    public function showConfirmation(int $id): void
+    public function showConfirmation(int $id, int $status): void
     {
         $this->closeModal();
         $this->service_delete_id = $id;
+        $this->service_status = $status;
         $this->delete_modal = true;
     }
 
     public function deleteService(): void
     {
         $result = Service::find($this->service_delete_id);
-        $result->service_status = 1;
+        $result->service_status = $this->service_status;
         $result->save();
         $this->success(
-            "Service removed successfully",
+            "Service updated successfully",
             position: "toast-buttom"
         );
         $this->delete_modal = false;
@@ -253,7 +257,6 @@ new class extends Component {
     @if($services)
         <x-mary-table :headers="$this->headers()" :rows="$this->services" striped @row-click="$wire.serviceInfo($event.detail)" >
             @scope('cell_service_status', $service)
-                <i>{{ $service->service_status }}</i>
                 @if($service->service_status == 0)
                     <x-mary-badge value="Available" class="badge-success" />
                 @else
@@ -302,7 +305,11 @@ new class extends Component {
             <x-mary-input label="Price" wire:model="service_price" class="rounded-md w-full" />
 
             <x-slot:actions>
-                <x-mary-button icon="o-trash" wire:click="showConfirmation({{ $this->service_id }})" spinner class="text-error btn-ghost btn-circle" />
+                @if($this->service_status == 0)
+                    <x-mary-button icon="o-trash" wire:click="showConfirmation({{ $this->service_id }}, 1)" spinner class="text-error btn-ghost btn-circle" />
+                @else
+                    <x-mary-button icon="fluentui.presence-available-20-o" wire:click="showConfirmation({{ $this->service_id }}, 0)" spinner class="text-success btn-ghost btn-circle" />
+                @endif
                 <x-mary-button label="{{ __('Close') }}" wire:click="closeModal()" spinner />
                 <x-mary-button label="{{ __('Save changes') }}" class="btn-primary" type="submit" spinner="updateService" />
             </x-slot:actions>
@@ -310,7 +317,13 @@ new class extends Component {
     </x-mary-modal>
 
     <x-mary-modal wire:model="delete_modal" class="backdrop-blur">
-        <div class="mb-5 text-center">Are you sure you want to remove this Service?</div>
+        <div class="mb-5 text-center">
+            @if($this->service_status == 1)
+                Are you sure you want to remove this Service?
+            @else
+                Are you sure you want to make this Service available?
+            @endif
+        </div>
         <div class="grid grid-cols-2 gap-3">
             <x-mary-button label="{{ __('Cancel') }}" class="btn-primary" @click="$wire.delete_modal = false" />
             <x-mary-button label="{{ __('Confirm') }}" class="btn-ghost" wire:click="deleteService()" spinner />
