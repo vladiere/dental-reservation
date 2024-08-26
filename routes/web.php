@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DentalClinicController;
 use Illuminate\Support\Facades\Route;
 
 Route::view("/", "welcome");
@@ -33,7 +34,15 @@ Route::prefix("dentist")
     ->group(function () {
         Route::view("/", "dashboard")->name("dentist_dashboard");
         Route::view("profile", "profile")->name("dentist_profile");
-        Route::view("clinic", "dentist.clinic")->name("clinic");
+        Route::prefix("clinic")->group(function () {
+            Route::view("/", "dentist.clinic")->name("clinic");
+            Route::get("/{id?}/services", [
+                DentalClinicController::class,
+                "index",
+            ])
+                ->where("id", "[0-9]+")
+                ->name("clinic_service");
+        });
         Route::view("patients", "dentist.patient")->name("patient");
         Route::view("reservations", "dentist.reservation")->name("reservation");
         Route::view("notifications", "dentist.notification")->name(

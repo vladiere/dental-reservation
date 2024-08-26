@@ -17,6 +17,7 @@ return new class extends Migration {
             $table->string("service_name");
             $table->decimal("service_price", total: 10, places: 2);
             $table->string("service_description");
+            $table->tinyInteger("service_status")->default(0);
             $table->timestamps();
         });
     }

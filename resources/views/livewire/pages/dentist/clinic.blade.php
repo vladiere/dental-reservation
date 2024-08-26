@@ -162,7 +162,7 @@ new class extends Component {
         @endif
         <div class="flex justify-between items-center">
             <x-mary-button label="Close" @click="$wire.left_drawer = false" />
-            <x-mary-button class="btn-primary text-white" label="Clinic Services" />
+            <x-mary-button class="btn-primary text-white" label="Clinic Services" link="{{ route('clinic_service', ['id' => $clinic_id]) }}" />
         </div>
     </x-mary-drawer>
 </div>

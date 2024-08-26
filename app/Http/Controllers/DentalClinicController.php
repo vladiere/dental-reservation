@@ -10,9 +10,11 @@ class DentalClinicController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(?int $id)
     {
-        //
+        $result = DentalClinic::where("id", "=", $id)->get();
+
+        return view("dentist.service", ["clinic" => $result]);
     }
 
     /**
