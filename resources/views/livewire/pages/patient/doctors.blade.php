@@ -45,15 +45,15 @@ new class extends Component {
 
 <div class="w-full p-3">
     <x-mary-header title="{{ __('Available Doctors') }}" separator progress-indicator />
-    <div class="grid grid-cols-3 gap-3">
+    <div class="grid md:grid-cols-3 gap-3">
         @if($this->doctors != null)
             @foreach($this->doctors as $doctor)
-                <x-mary-card class="col" title="{{ Str::of($doctor['first_name'])->ucfirst() . ' ' . Str::of($doctor['middle_name'])->ucfirst() . ' ' . Str::of($doctor['last_name'])->ucfirst() }}">
+                <x-mary-card class="col-12 md:col-md" title="{{ Str::of($doctor['first_name'])->ucfirst() . ' ' . Str::of($doctor['middle_name'])->ucfirst() . ' ' . Str::of($doctor['last_name'])->ucfirst() }}">
                     <div class="capitalize font-sm">{{ $doctor['address'] }}</div>
 
                     <x-slot:figure>
                         <div class="p-3">
-                            <img src="{{ asset('storage/' . $doctor['img_path']) }}" class="rounded-lg" />
+                            <img src="{{ asset('storage/' . $doctor['img_path']) }}" class="h-56 md:h-full rounded-lg" />
                         </div>
                     </x-slot:figure>
                 </x-mary-card>

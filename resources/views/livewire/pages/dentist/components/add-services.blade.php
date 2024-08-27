@@ -178,6 +178,7 @@ new class extends Component {
             position: "toast-top toast-right"
         );
         $this->resetItem();
+        $this->fetchServices();
         return;
     }
 
@@ -255,6 +256,9 @@ new class extends Component {
 <div class="w-full p-3">
     <x-mary-header title="{{ __('Services') }}" separator progress-indicator />
     @if($services)
+        <div class="">
+            <x-mary-button class="btn-primary text-white" label="Add services" @click="$wire.left_drawer = true" />
+        </div>
         <x-mary-table :headers="$this->headers()" :rows="$this->services" striped @row-click="$wire.serviceInfo($event.detail)" >
             @scope('cell_service_status', $service)
                 @if($service->service_status == 0)

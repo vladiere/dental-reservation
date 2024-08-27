@@ -63,6 +63,11 @@ Route::prefix("patient")
             })
                 ->where("id", "[0-9]+")
                 ->name("one_clinic");
+            Route::get("/{clinic_id?}/reservation", function (?int $clinic_id) {
+                return view("patient.reservations");
+            })
+                ->where("id", "[0-9]+")
+                ->name("clinic_reservation");
         });
     });
 

@@ -36,12 +36,12 @@ new class extends Component {
 <div class="w-full p-3">
     <x-mary-header title="{{ __('Available Clinics') }}" separator progress-indicator />
     @if (count($clinics) > 0)
-        <div class="mt-5 w-full grid grid-cols-3 gap-5">
+        <div class="mt-5 w-full grid md:grid-cols-3 gap-5">
             @foreach($clinics as $clinic)
                 <x-mary-card title="{{ Str::of($clinic['clinic_name'])->ucfirst() }}">
                     <div class="capitalize">{{ $clinic['clinic_address'] }}</div>
                     <x-slot:figure>
-                        <iframe width="100%" height="170" frameborder="0" src= "https://maps.google.com/maps?f=q&source=s_q&hl=en&geocode=&q='{{ str_replace(',', '', str_replace(' ', '+', $clinic['clinic_address'])) }}' &z=14&output=embed"></iframe>
+                        <iframe class="h-[300px] w-full rounded-md" frameborder="0" src= "https://maps.google.com/maps?f=q&source=s_q&hl=en&geocode=&q='{{ str_replace(',', '', str_replace(' ', '+', $clinic['clinic_address'])) }}' &z=14&output=embed"></iframe>
                     </x-slot:figure>
                     <x-slot:menu>
                         @if ($clinic['map_link'] != null)
