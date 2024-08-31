@@ -56,21 +56,20 @@ new class extends Component {
 ?>
 
 <div class="w-full p-3">
-    <x-mary-header title="{{ __('Available Clinics') }}" separator progress-indicator />
-    {{ $clinic }}
+    < x-mary-header size="text-xl md:text-4xl" title="{{ Capitalization::capitalize($clinic['clinic_name'], ' ') . __(' Clinic') }}" separator progress-indicator />
     <div class="w-full space-y-3">
         <iframe class="h-[300px] w-full rounded-md" frameborder="0" src= "https://maps.google.com/maps?f=q&source=s_q&hl=en&geocode=&q='{{ str_replace(',', '', str_replace(' ', '+', $clinic['clinic_address'])) }}' &z=14&output=embed"></iframe>
         <div class="my-2">
-            <x-mary-button label="{{ Capitalization::capitalize($clinic['clinic_name'], ' ') }}" link="{{ $clinic['map_link'] }}" external icon-right="o-link" tooltip="See in google maps" class="btn-ghost font-bold text-xl md:text-4xl" />
+            <x-mary-button label="{{ Capitalization::capitalize($clinic['clinic_name'], ' ') }}" link="{{ $clinic['map_link'] }}" external icon-right="o-link" tooltip-buttom="See in google maps" class="btn-ghost font-bold text-xl md:text-4xl" />
         </div>
-        <span class="px-4 capitalize text-sm md:text-md font-semibold md:text-left">{{ $clinic['clinic_address'] }}</span>
+        <span class="px-4 capitalize text-sm md:text-lg font-semibold md:text-left">{{ $clinic['clinic_address'] }}</span>
 
         <hr />
 
         <div class="flex gap-2 md:gap-3">
             <img src="{{ asset('storage/' . $clinic['img_path']) }}" class="md:p-3 rounded-md w-[200px]" />
             <div class="space-y-3 flex flex-col md:p-3">
-                <span class="capitalize text-md font-semibold">{{ $clinic['first_name'] . ' ' . $clinic['last_name'] . ' ' . Str::charAt($clinic['middle_name'], 0) }}</span>
+                <span class="capitalize text-lg font-semibold">{{ $clinic['first_name'] . ' ' . $clinic['last_name'] . ' ' . Str::charAt($clinic['middle_name'], 0) }}</span>
                 <span class="text-md font-semibold">{{ $clinic['email'] }}</span>
                 <div class="">
                     @if($clinic['acc_status'] == 0)

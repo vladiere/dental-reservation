@@ -2,7 +2,7 @@
 
     {{-- MAIN --}}
     <!-- HEADER -->
-    <x-mary-header title="{{ __('Dashboard') }}" separator progress-indicator />
+    < x-mary-header size="text-xl md:text-4xl" title="{{ __('Dashboard') }}" separator progress-indicator />
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">

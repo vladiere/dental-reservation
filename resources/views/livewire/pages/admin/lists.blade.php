@@ -122,7 +122,7 @@ new class extends Component {
 ?>
 
 <div class="w-full p-3">
-    <x-mary-header title="List all Admins" separator progress-indicator />
+    < x-mary-header size="text-xl md:text-4xl" title="List all Admins" separator progress-indicator />
     <x-mary-table :headers="$this->headers()" :rows="$this->patients()" :sort-by="$this->sortBy()" @row-click="$wire.show_detail($event.detail)" />
 
     <x-mary-modal wire:model="detail_modal" class="backdrop-blur">

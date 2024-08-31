@@ -17,7 +17,21 @@ return new class extends Migration {
             $table->string("email")->unique();
             $table->timestamp("email_verified_at")->nullable();
             $table->string("password");
-            $table->enum("role", ["dentist", "patient", "admin", "subadmin"]);
+            // 0 -- admin
+            // 1 -- subadmin
+            // 2 -- dentist
+            // 3 -- patient
+            // 4 -- receptionist
+            // 5 -- guest
+            $table->tinyInteger("user_role")->default(5);
+            $table
+                ->enum("user_status", [
+                    "pending",
+                    "registered",
+                    "rejected",
+                    "cancel",
+                ])
+                ->default("pending");
             $table->rememberToken();
             $table->timestamps();
         });

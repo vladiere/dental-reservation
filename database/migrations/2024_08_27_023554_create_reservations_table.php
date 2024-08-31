@@ -16,8 +16,9 @@ return new class extends Migration {
             $table->id();
             $table->foreignIdFor(User::class);
             $table->foreignIdFor(Service::class);
-            $table->string("reservation_day");
-            $table->time("reservation_time", precision: 0);
+            $table->dateTime("reservation_datetime", precision: 0);
+            $table->enum("reserve_type", ["clustered", "solo"]);
+            $table->tinyInteger("count");
             // 0    --- Pending
             // 1    --- Accept
             // 2    --- Denied/Reject

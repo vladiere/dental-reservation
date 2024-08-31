@@ -44,7 +44,7 @@ new class extends Component {
 ?>
 
 <div class="w-full p-3">
-    <x-mary-header title="{{ __('Available Doctors') }}" separator progress-indicator />
+    < x-mary-header size="text-xl md:text-4xl" title="{{ __('Available Doctors') }}" separator progress-indicator />
     <div class="grid md:grid-cols-3 gap-3">
         @if($this->doctors != null)
             @foreach($this->doctors as $doctor)

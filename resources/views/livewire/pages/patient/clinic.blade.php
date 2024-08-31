@@ -34,7 +34,7 @@ new class extends Component {
 ?>
 
 <div class="w-full p-3">
-    <x-mary-header title="{{ __('Available Clinics') }}" separator progress-indicator />
+    < x-mary-header size="text-xl md:text-4xl" title="{{ __('Available Clinics') }}" separator progress-indicator />
     @if (count($clinics) > 0)
         <div class="mt-5 w-full grid md:grid-cols-3 gap-5">
             @foreach($clinics as $clinic)

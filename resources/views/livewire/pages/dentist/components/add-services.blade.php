@@ -254,7 +254,7 @@ new class extends Component {
 ?>
 
 <div class="w-full p-3">
-    <x-mary-header title="{{ __('Services') }}" separator progress-indicator />
+    < x-mary-header size="text-xl md:text-4xl" title="{{ __('Services') }}" separator progress-indicator />
     @if($services)
         <div class="">
             <x-mary-button class="btn-primary text-white" label="Add services" @click="$wire.left_drawer = true" />

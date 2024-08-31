@@ -97,7 +97,7 @@ new class extends Component {
 
 <div class="w-full p-2 sm:p-0 sm:w-3/5 md:w-3/4 lg:w-4/5 mx-auto mt-2">
     <!-- HEADER -->
-    <x-mary-header title="Adding new Admin" separator progress-indicator />
+    < x-mary-header size="text-xl md:text-4xl" title="Adding new Admin" separator progress-indicator />
 
     <x-mary-form wire:submit="register" >
         <!-- Full name -->

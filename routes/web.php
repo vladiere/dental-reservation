@@ -44,7 +44,7 @@ Route::prefix("dentist")
                 ->name("clinic_service");
         });
         Route::view("patients", "dentist.patient")->name("patient");
-        Route::view("reservations", "dentist.reservation")->name("reservation");
+        Route::view("appointment", "dentist.reservation")->name("reservation");
         Route::view("notifications", "dentist.notification")->name(
             "notification"
         );
