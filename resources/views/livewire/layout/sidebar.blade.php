@@ -40,13 +40,13 @@ new class extends Component {
 
     <x-mary-menu-separator />
 
-    @if(auth()->user()->role === 'admin')
+    @if(auth()->user()->user_role === 0)
         <x-mary-menu-item title="Dashboard" icon="o-home" link="{{ route('admin_dashboard') }}" />
         <x-item_icon.i-i-admin />
-    @elseif (auth()->user()->role === 'subadmin')
+    @elseif (auth()->user()->user_role === 1)
         <x-mary-menu-item title="Dashboard" icon="o-home" link="{{ route('subadmin_dashboard') }}" />
         <x-item_icon.i-i-subadmin />
-    @elseif (auth()->user()->role === 'dentist')
+    @elseif (auth()->user()->user_role === 2)
         <x-mary-menu-item title="Dashboard" icon="o-home" link="{{ route('dentist_dashboard') }}" />
         <x-item_icon.i-i-dentist />
     @else
@@ -55,11 +55,11 @@ new class extends Component {
     @endif
     <x-mary-menu-sub title="Settings" icon="o-cog-6-tooth">
         <x-mary-menu-item title="Theme" icon="o-sun" @click="$dispatch('mary-toggle-theme')" />
-        @if(auth()->user()->role === 'admin')
+        @if(auth()->user()->user_role === 0)
             <x-mary-menu-item title="Profile" icon="iconsax.lin-profile-circle" link="{{ route('admin_profile') }}" />
-        @elseif (auth()->user()->role === 'subadmin')
+        @elseif (auth()->user()->user_role === 1)
             <x-mary-menu-item title="Profile" icon="iconsax.lin-profile-circle" link="{{ route('subadmin_profile') }}" />
-        @elseif (auth()->user()->role === 'dentist')
+        @elseif (auth()->user()->user_role === 2)
             <x-mary-menu-item title="Profile" icon="iconsax.lin-profile-circle" link="{{ route('dentist_profile') }}" />
         @else
             <x-mary-menu-item title="Profile" icon="iconsax.lin-profile-circle" link="{{ route('patient_profile') }}" />

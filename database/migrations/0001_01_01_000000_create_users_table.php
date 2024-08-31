@@ -18,14 +18,14 @@ return new class extends Migration {
             $table->timestamp("email_verified_at")->nullable();
             $table->string("password");
             // 0 -- admin
-            // 1 -- subadmin
+            // 1 -- receptionist
             // 2 -- dentist
             // 3 -- patient
-            // 4 -- receptionist
             // 5 -- guest
             $table->tinyInteger("user_role")->default(5);
             $table
                 ->enum("user_status", [
+                    "admin",
                     "pending",
                     "registered",
                     "rejected",

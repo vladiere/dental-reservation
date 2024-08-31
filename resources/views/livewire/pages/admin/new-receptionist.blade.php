@@ -51,6 +51,8 @@ new class extends Component {
             "role" => "subadmin",
             "email" => $data["email"],
             "password" => $data["password"],
+            "user_role" => 1,
+            "user_status" => "registered",
         ]);
 
         if ($user) {

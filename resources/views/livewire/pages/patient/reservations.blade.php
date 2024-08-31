@@ -60,9 +60,15 @@ new class extends Component {
         ];
     }
 
+    public function set_reserve_type(): void
+    {
+        $this->fetchClinic();
+    }
+
     public function set_appointment(): void
     {
-        $this->validate();
+        $data = $this->validate();
+        dd($data);
         return;
     }
 };
@@ -79,7 +85,8 @@ new class extends Component {
                 icon="o-user"
                 :options="$this->resrv_type()"
                 placeholder="Select appointment type"
-                wire:model.live="reserve_type"
+                wire:model="reserve_type"
+                wire:model.live="set_reserve_type()"
             />
             @if($this->reserve_type == "clustered")
                 <x-mary-input type="number" min="1" max="999" label="How many patients" placeholder="Enter patients count" icon="fluentui.people-32" hint="Enter of how many people are with you." wire:model="patient_count" />
@@ -89,4 +96,6 @@ new class extends Component {
             <x-mary-button label="Submit" class="btn-primary text-white" type="submit" spinner="set_appointment" />
         </x-slot:actions>
     </x-mary-form>
+    <div class="">
+    </div>
 </div>

@@ -25,7 +25,8 @@ class DatabaseSeeder extends Seeder
             "details_id" => $details->id,
             "email" => "admin@soy.com",
             "password" => Hash::make("admin@soy"),
-            "role" => "admin",
+            "user_role" => 0,
+            "user_status" => "admin",
         ]);
     }
 }

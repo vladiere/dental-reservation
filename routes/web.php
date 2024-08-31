@@ -16,7 +16,7 @@ Route::prefix("admin")
         Route::view("patients", "admin.patients")->name("patients");
         Route::view("dentists", "admin.dentists")->name("dentists");
         Route::view("lists", "admin.lists")->name("lists");
-        Route::view("new", "admin.new-admin")->name("new_admin");
+        Route::view("new", "admin.new-receptionist")->name("new_receptionist");
         Route::view("profile", "profile")->name("admin_profile");
     });
 
@@ -69,6 +69,13 @@ Route::prefix("patient")
                 ->where("id", "[0-9]+")
                 ->name("clinic_reservation");
         });
+    });
+
+Route::prefix("subadmin")
+    ->middleware(["auth", "verified", "rolemanager:guest"])
+    ->group(function () {
+        Route::view("dashboard", "dashboard")->name("guest_dashboard");
+        Route::view("dentists", "guest.dentists")->name("guest_dentists");
     });
 
 require __DIR__ . "/auth.php";

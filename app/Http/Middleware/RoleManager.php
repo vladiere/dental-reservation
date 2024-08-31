@@ -28,28 +28,30 @@ class RoleManager
             case "admin":
                 return $next($request);
                 break;
-            case "subadmin":
+            case "receptionist":
+                return $next($request);
+                break;
+            case "dentist":
                 return $next($request);
                 break;
             case "patient":
                 return $next($request);
-                break;
-            case "dentist":
+            case "guest":
                 return $next($request);
                 break;
         }
 
         switch ($auth_role) {
-            case "dentist":
-                return redirect()->route("dentist_dashboard");
-                break;
-            case "admin":
+            case 0:
                 return redirect()->route("admin_dashboard");
                 break;
-            case "subadmin":
-                return redirect()->route("subadmin_dashboard");
+            case 1:
+                return redirect()->route("reception_dashboard");
                 break;
-            case "patient":
+            case 2:
+                return redirect()->route("dentist_dashboard");
+                break;
+            case 3:
                 return redirect()->route("patient_dashboard");
                 break;
             default:
