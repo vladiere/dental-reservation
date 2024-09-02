@@ -1,2 +1,2 @@
-<x-mary-menu-item title="Reservations" icon="o-calendar-days" link="#" />
-<x-mary-menu-item title="Schedules" icon="o-clock" link="#" />
+<x-mary-menu-item title="Appointment" icon="o-calendar-days" link="#" />
+<x-mary-menu-item title="Doctors" icon="o-clock" link="#" />

@@ -58,12 +58,12 @@ new class extends Component {
         if ($user) {
             $this->reset();
             $this->success(
-                "Admin added successfully.",
+                "Receptionist added successfully.",
                 position: "toast-top top-right"
             );
         } else {
             $this->warning(
-                "Add admin failed.",
+                "Add receptionist failed.",
                 position: "toast-top top-right"
             );
         }
@@ -99,7 +99,7 @@ new class extends Component {
 
 <div class="w-full p-2 sm:p-0 sm:w-3/5 md:w-3/4 lg:w-4/5 mx-auto mt-2">
     <!-- HEADER -->
-    < x-mary-header size="text-xl md:text-4xl" title="Adding new Admin" separator progress-indicator />
+    < x-mary-header size="text-xl md:text-4xl" title="Adding new receptionist" separator progress-indicator />
 
     <x-mary-form wire:submit="register" >
         <!-- Full name -->
@@ -124,7 +124,7 @@ new class extends Component {
         </div>
 
         <x-slot:actions>
-            <x-mary-button label="{{ __('Add admin') }}" type="submit" class="btn-primary rounded-md text-white" spinner="register" />
+            <x-mary-button label="{{ __('Add receptionist') }}" type="submit" class="btn-primary rounded-md text-white" spinner="register" />
         </x-slot:actions>
     </x-mary-form>
 </div>
