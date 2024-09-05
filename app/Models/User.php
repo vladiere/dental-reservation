@@ -3,13 +3,14 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use HasFactory, Notifiable;
 
@@ -20,7 +21,14 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
-    protected $fillable = ["details_id", "email", "password", "role"];
+    protected $fillable = [
+        "details_id",
+        "email",
+        "password",
+        "user_role",
+        "user_status",
+        "email_verified_at",
+    ];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -45,5 +53,16 @@ class User extends Authenticatable
     public function details(): BelongsTo
     {
         return $this->belongsTo(Details::class, "detail_id");
+    }
+
+    // Transform long date to short date
+    public function getCreatedAtAttribute($value)
+    {
+        return $value ? Carbon::parse($value)->format("m/d/Y") : null;
+    }
+
+    public function getUpdatedAtAttribute($value)
+    {
+        return $value ? Carbon::parse($value)->format("m/d/Y") : null;
     }
 }

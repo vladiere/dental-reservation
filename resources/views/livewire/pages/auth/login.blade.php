@@ -20,22 +20,26 @@ new #[Layout("layouts.guest")] class extends Component {
 
         Session::regenerate();
 
-        if (Auth::user()->role == "dentist") {
+        // if (Auth::user()->user_status == "pending") {
+
+        // }
+
+        if (Auth::user()->user_role == 22) {
             $this->redirectIntended(
                 default: route("dentist_dashboard", absolute: false),
                 navigate: true
             );
-        } elseif (Auth::user()->role == "patient") {
+        } elseif (Auth::user()->user_role == 3) {
             $this->redirectIntended(
                 default: route("patient_dashboard", absolute: false),
                 navigate: true
             );
-        } elseif (Auth::user()->role == "admin") {
+        } elseif (Auth::user()->user_role == 0) {
             $this->redirectIntended(
                 default: route("admin_dashboard", absolute: false),
                 navigate: true
             );
-        } elseif (Auth::user()->role == "subadmin") {
+        } elseif (Auth::user()->user_role == 1) {
             $this->redirectIntended(
                 default: route("subadmin_dashboard", absolute: false),
                 navigate: true

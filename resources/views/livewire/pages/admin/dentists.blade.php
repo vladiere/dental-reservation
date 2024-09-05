@@ -22,6 +22,8 @@ new class extends Component {
     public string|null $address = "";
     public string|null $email = "";
     public string|null $dental_clinic = "";
+    public string|null $created_at = "";
+    public string|null $updated_at = "";
     public int|null $id = null;
 
     public function remove()
@@ -47,7 +49,7 @@ new class extends Component {
         }
     }
 
-    public function patients(): Collection
+    public function dentists(): Collection
     {
         return Details::query()
             ->leftJoin("users", "details.id", "=", "users.details_id")
@@ -61,11 +63,12 @@ new class extends Component {
                 details.contact_no,
                 details.address,
                 users.email,
+                users.user_status,
                 users.created_at,
                 users.updated_at
             ')
             )
-            ->where("users.role", "=", "dentist")
+            ->where("users.user_role", "=", 2)
             ->where("details.acct_status", "=", 0)
             ->orderBy(...array_values($this->soryBy))
             ->get();
@@ -82,7 +85,7 @@ new class extends Component {
     public function headers(): array
     {
         return [
-            ["key" => "id", "label" => "#", "class" => "w-10"],
+            ["key" => "detail_id", "label" => "#", "class" => "w-10"],
             ["key" => "first_name", "label" => "First Name", "class" => "w-72"],
             [
                 "key" => "middle_name",
@@ -97,6 +100,11 @@ new class extends Component {
                 "class" => "w-16",
             ],
             ["key" => "email", "label" => "E-mail", "sortable" => false],
+            [
+                "key" => "user_status",
+                "label" => "Registration Status",
+                "sortable" => false,
+            ],
         ];
     }
 
@@ -111,6 +119,8 @@ new class extends Component {
         $this->email = $details["email"] ?? "N/A";
         $this->dental_clinic = $details["dental_clinic_name"] ?? "N/A";
         $this->id = $details["detail_id"];
+        $this->created_at = $details["created_at"];
+        $this->updated_at = $details["updated_at"];
         $this->detail_modal = true;
     }
 };
@@ -118,30 +128,36 @@ new class extends Component {
 
 <div class="w-full p-3">
     < x-mary-header size="text-xl md:text-4xl" title="List all Dentist" separator progress-indicator />
-    <x-mary-table :headers="$this->headers()" :rows="$this->patients()" :sort-by="$this->sortBy()" @row-click="$wire.show_detail($event.detail)" />
+    <x-mary-table :headers="$this->headers()" :rows="$this->dentists()" :sort-by="$this->sortBy()" @row-click="$wire.show_detail($event.detail)" />
 
     <x-mary-modal wire:model="detail_modal" class="backdrop-blur">
         <div class="space-y-2 mb-2">
             <!-- Full name -->
             <div class="space-y-2 md:space-y-0 md:grid md:grid-cols-3 gap-2 ">
-                <x-mary-input disabled  class="rounded-lg" label="First name" wire:model="first_name" />
-                <x-mary-input disabled  class="rounded-lg" label="Last name" wire:model="last_name" />
-                <x-mary-input disabled  class="rounded-lg" label="Middle name" wire:model="middle_name" />
+                <x-mary-input readonly  class="rounded-lg" label="First name" wire:model="first_name" />
+                <x-mary-input readonly  class="rounded-lg" label="Last name" wire:model="last_name" />
+                <x-mary-input readonly  class="rounded-lg" label="Middle name" wire:model="middle_name" />
             </div>
 
             <!-- Contact address and number -->
             <div class="space-y-2 md:space-y-0 md:grid md:grid-cols-2 gap-2 ">
-                <x-mary-input disabled  class="rounded-lg" label="Contact number" wire:model="contact_no" />
-                <x-mary-input disabled  class="rounded-lg" label="Gender" wire:model="gender" />
+                <x-mary-input readonly  class="rounded-lg" label="Contact number" wire:model="contact_no" />
+                <x-mary-input readonly  class="rounded-lg" label="Gender" wire:model="gender" />
             </div>
 
-            <x-mary-input disabled  class="rounded-lg" label="E-mail" wire:model="email" />
-            <x-mary-input disabled  class="rounded-lg" label="Complete address" wire:model="address"  />
+            <x-mary-input readonly  class="rounded-lg" label="E-mail" wire:model="email" />
+            <x-mary-input readonly  class="rounded-lg" label="Complete address" wire:model="address"  />
 
+        </div>
+        <div class="grid grid-cols-2 gap-2">
+            <x-mary-input readonly  class="rounded-lg" label="Created Dated" wire:model="created_at" />
+            <x-mary-input readonly  class="rounded-lg" label="Updated Dated" wire:model="updated_at"  />
         </div>
         <div class="flex gap-3 items-center mt-5">
             <x-mary-button label="Cancel" @click="$wire.detail_modal = false" />
-            <x-mary-button icon="o-trash" class="btn-circle btn-ghost text-red-500" wire:click="remove" />
+            @if(auth()->user()->user_role == 0)
+                <x-mary-button icon="o-trash" class="btn-circle btn-ghost text-red-500" wire:click="remove" />
+            @endif
         </div>
     </x-mary-modal>
 </div>

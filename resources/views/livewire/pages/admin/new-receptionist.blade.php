@@ -53,6 +53,7 @@ new class extends Component {
             "password" => $data["password"],
             "user_role" => 1,
             "user_status" => "registered",
+            "email_verified_at" => now(),
         ]);
 
         if ($user) {

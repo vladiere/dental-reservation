@@ -23,10 +23,10 @@ Route::prefix("admin")
 Route::prefix("subadmin")
     ->middleware(["auth", "verified", "rolemanager:subadmin"])
     ->group(function () {
-        Route::view("dashboard", "dashboard")->name("subadmin_dashboard");
+        Route::view("dashboard", "dashboard")->name("admin_dashboard");
         Route::view("patients", "admin.patients")->name("patients");
         Route::view("dentists", "admin.dentists")->name("dentists");
-        Route::view("profile", "profile")->name("subadmin_profile");
+        Route::view("profile", "profile")->name("admin_profile");
     });
 
 Route::prefix("dentist")

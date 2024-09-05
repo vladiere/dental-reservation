@@ -3,6 +3,7 @@
 use App\Models\Details;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Rule;
@@ -57,14 +58,15 @@ new #[Layout("layouts.guest")] #[Title("Login")] class extends Component {
         ]);
         $user = User::create([
             "details_id" => $user_detail->id,
-            "role" => $data["role"],
+            "user_role" => $data["role"],
+            "user_status" => "pending",
             "email" => $data["email"],
             "password" => $data["password"],
         ]);
 
         Auth::login($user);
 
-        if (Auth::user()->role === "patient") {
+        if (Auth::user()->user_role === 3) {
             $this->redirect(
                 route("patient_dashboard", absolute: false),
                 navigate: true
@@ -89,8 +91,8 @@ new #[Layout("layouts.guest")] #[Title("Login")] class extends Component {
     public function roles(): array
     {
         return [
-            ["id" => "patient", "name" => "Patient"],
-            ["id" => "dentist", "name" => "Dentist"],
+            ["id" => 2, "name" => "Dentist"],
+            ["id" => 3, "name" => "Patient"],
         ];
     }
 
@@ -104,15 +106,6 @@ new #[Layout("layouts.guest")] #[Title("Login")] class extends Component {
             return "other";
         }
     }
-
-    public function check_role(string $role): string
-    {
-        if ($role == "1") {
-            return "patient";
-        } else {
-            return "dentist";
-        }
-    }
 };
 ?>
 
@@ -122,8 +115,8 @@ new #[Layout("layouts.guest")] #[Title("Login")] class extends Component {
         <span class="mb-2 font-bold text-lg">Register your account.</span>
         <div class="space-y-2 md:space-y-0 md:grid md:grid-cols-3 gap-2 ">
             <x-mary-input  class="rounded-lg" label="First name" wire:model="first_name" required type="text" name="first_name" autofocus autocomplete="first_name" />
-            <x-mary-input  class="rounded-lg" label="Last name" wire:model="last_name" required type="text" name="last_name" autofocus autocomplete="last_name" />
             <x-mary-input  class="rounded-lg" label="Middle name" wire:model="middle_name" required type="text" name="middle_name" autofocus autocomplete="middle_name" />
+            <x-mary-input  class="rounded-lg" label="Last name" wire:model="last_name" required type="text" name="last_name" autofocus autocomplete="last_name" />
         </div>
 
         <!-- Contact address and number -->

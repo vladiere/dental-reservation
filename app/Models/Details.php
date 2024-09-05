@@ -13,6 +13,7 @@ class Details extends Model
 
     protected $fillable = [
         "first_name",
+        "middle_name",
         "last_name",
         "contact_no",
         "gender",
