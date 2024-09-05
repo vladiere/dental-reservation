@@ -21,7 +21,6 @@ new class extends Component {
     public string|null $gender = "";
     public string|null $address = "";
     public string|null $email = "";
-    public string|null $dental_clinic = "";
     public int|null $id = null;
 
     public function remove()
@@ -47,7 +46,7 @@ new class extends Component {
         }
     }
 
-    public function patients(): Collection
+    public function receptionists(): Collection
     {
         return Details::query()
             ->leftJoin("users", "details.id", "=", "users.details_id")
@@ -114,7 +113,6 @@ new class extends Component {
         $this->address = $details["address"] ?? "N/A";
         $this->gender = $details["gender"] ?? "N/A";
         $this->email = $details["email"] ?? "N/A";
-        $this->dental_clinic = $details["dental_clinic_name"] ?? "N/A";
         $this->id = $details["detail_id"];
         $this->detail_modal = true;
     }
@@ -123,7 +121,7 @@ new class extends Component {
 
 <div class="w-full p-3">
     < x-mary-header size="text-xl md:text-4xl" title="List all Admins" separator progress-indicator />
-    <x-mary-table :headers="$this->headers()" :rows="$this->patients()" :sort-by="$this->sortBy()" @row-click="$wire.show_detail($event.detail)" />
+    <x-mary-table :headers="$this->headers()" :rows="$this->receptionists()" :sort-by="$this->sortBy()" @row-click="$wire.show_detail($event.detail)" />
 
     <x-mary-modal wire:model="detail_modal" class="backdrop-blur">
         <div class="space-y-2 mb-2">

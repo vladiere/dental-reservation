@@ -63,7 +63,7 @@ new class extends Component {
                 details.contact_no,
                 details.address,
                 users.email,
-                users.user_status,
+                users.email_verified_at,
                 users.created_at,
                 users.updated_at
             ')
@@ -101,7 +101,7 @@ new class extends Component {
             ],
             ["key" => "email", "label" => "E-mail", "sortable" => false],
             [
-                "key" => "user_status",
+                "key" => "email_verified_at",
                 "label" => "Registration Status",
                 "sortable" => false,
             ],
@@ -128,7 +128,15 @@ new class extends Component {
 
 <div class="w-full p-3">
     < x-mary-header size="text-xl md:text-4xl" title="List all Dentist" separator progress-indicator />
-    <x-mary-table :headers="$this->headers()" :rows="$this->dentists()" :sort-by="$this->sortBy()" @row-click="$wire.show_detail($event.detail)" />
+    <x-mary-table :headers="$this->headers()" :rows="$this->dentists()" :sort-by="$this->sortBy()" @row-click="$wire.show_detail($event.detail)" >
+        @scope('cell_email_verified_at', $user)
+            @if($user->email_verified_at == "")
+                <x-mary-badge value="Pending" class="badge-warning" />
+            @else
+                <x-mary-badge value="Registered" class="badge-success" />
+            @endif
+        @endscope
+    </x-mary-table>
 
     <x-mary-modal wire:model="detail_modal" class="backdrop-blur">
         <div class="space-y-2 mb-2">

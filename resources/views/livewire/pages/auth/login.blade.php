@@ -1,5 +1,7 @@
 <?php
 
+use function PHPUnit\Framework\isNull;
+
 use App\Livewire\Forms\LoginForm;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
@@ -18,13 +20,16 @@ new #[Layout("layouts.guest")] class extends Component {
 
         $this->form->authenticate();
 
+        if (Auth::user()->email_verified_at == "") {
+            $this->redirectIntended(
+                default: route("verification.notice", absolute: false),
+                navigate: true
+            );
+        }
+
         Session::regenerate();
 
-        // if (Auth::user()->user_status == "pending") {
-
-        // }
-
-        if (Auth::user()->user_role == 22) {
+        if (Auth::user()->user_role == 2) {
             $this->redirectIntended(
                 default: route("dentist_dashboard", absolute: false),
                 navigate: true

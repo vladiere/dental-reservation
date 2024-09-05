@@ -23,15 +23,6 @@ return new class extends Migration {
             // 3 -- patient
             // 5 -- guest
             $table->tinyInteger("user_role")->default(5);
-            $table
-                ->enum("user_status", [
-                    "admin",
-                    "pending",
-                    "registered",
-                    "rejected",
-                    "cancel",
-                ])
-                ->default("pending");
             $table->rememberToken();
             $table->timestamps();
         });

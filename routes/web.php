@@ -15,7 +15,9 @@ Route::prefix("admin")
         Route::view("dashboard", "dashboard")->name("admin_dashboard");
         Route::view("patients", "admin.patients")->name("patients");
         Route::view("dentists", "admin.dentists")->name("dentists");
-        Route::view("lists", "admin.lists")->name("lists");
+        Route::view("list-receptionist", "admin.list-receptionist")->name(
+            "list-receptionist"
+        );
         Route::view("new", "admin.new-receptionist")->name("new_receptionist");
         Route::view("profile", "profile")->name("admin_profile");
     });
@@ -23,7 +25,7 @@ Route::prefix("admin")
 Route::prefix("subadmin")
     ->middleware(["auth", "verified", "rolemanager:subadmin"])
     ->group(function () {
-        Route::view("dashboard", "dashboard")->name("admin_dashboard");
+        Route::view("dashboard", "dashboard")->name("subadmin_dashboard");
         Route::view("patients", "admin.patients")->name("patients");
         Route::view("dentists", "admin.dentists")->name("dentists");
         Route::view("profile", "profile")->name("admin_profile");
