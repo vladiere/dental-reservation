@@ -30,15 +30,15 @@ new class extends Component {
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    @if(auth()->user()->role === 'admin')
+                    @if(auth()->user()->role === 0)
                         <x-nav-link :href="route('admin_dashboard')" :active="request()->routeIs('admin_dashboard')" wire:navigate>
                             {{ __('Dashboard') }}
                         </x-nav-link>
-                    @elseif (auth()->user()->role === 'subadmin')
+                    @elseif (auth()->user()->role === 1)
                         <x-nav-link :href="route('subadmin_dashboard')" :active="request()->routeIs('subadmin_dashboard')" wire:navigate>
                             {{ __('Dashboard') }}
                         </x-nav-link>
-                    @elseif (auth()->user()->role === 'dentist')
+                    @elseif (auth()->user()->role === 2)
                         <x-nav-link :href="route('dentist_dashboard')" :active="request()->routeIs('dentist_dashboard')" wire:navigate>
                             {{ __('Dashboard') }}
                         </x-nav-link>

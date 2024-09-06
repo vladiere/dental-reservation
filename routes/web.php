@@ -28,7 +28,8 @@ Route::prefix("subadmin")
         Route::view("dashboard", "dashboard")->name("subadmin_dashboard");
         Route::view("patients", "admin.patients")->name("patients");
         Route::view("dentists", "admin.dentists")->name("dentists");
-        Route::view("profile", "profile")->name("admin_profile");
+        Route::view("schedules", "subadmin.schedules")->name("schedules");
+        Route::view("profile", "profile")->name("subadmin_profile");
     });
 
 Route::prefix("dentist")

@@ -28,7 +28,7 @@ class RoleManager
             case "admin":
                 return $next($request);
                 break;
-            case "receptionist":
+            case "subadmin":
                 return $next($request);
                 break;
             case "dentist":
@@ -46,7 +46,7 @@ class RoleManager
                 return redirect()->route("admin_dashboard");
                 break;
             case 1:
-                return redirect()->route("reception_dashboard");
+                return redirect()->route("subadmin_dashboard");
                 break;
             case 2:
                 return redirect()->route("dentist_dashboard");
