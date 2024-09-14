@@ -14,7 +14,6 @@ return new class extends Migration {
         Schema::create("dentist_schedules", function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(User::class);
-            $table->date("sched_date");
             $table->string("sched_days");
             $table->time("time_to", precision: 0);
             $table->time("time_from", precision: 0);
@@ -22,7 +21,7 @@ return new class extends Migration {
             // 1 -- unavailable
             // 2 -- out_of_office
             // 3 -- busy
-            $table->tinyInteger("sched_status");
+            $table->tinyInteger("sched_status")->default(0);
             $table->timestamps();
         });
     }

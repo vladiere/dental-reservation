@@ -64,8 +64,7 @@ new class extends Component {
                 users.updated_at
             ')
             )
-            ->where("users.role", "=", "patient")
-            ->where("details.acct_status", "=", 0)
+            ->where("users.user_role", "=", 3)
             ->orderBy(...array_values($this->soryBy))
             ->get();
     }

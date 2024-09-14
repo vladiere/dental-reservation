@@ -67,7 +67,7 @@ new class extends Component {
 
     public function register_clinic(): void
     {
-        $data = $validate();
+        $data = $this->validate();
         $result = DentalClinic::create([
             "user_id" => Auth::user()->id,
             "clinic_name" => Str::of($data["clinic_name"])->lower(),
@@ -105,16 +105,24 @@ new class extends Component {
                     @foreach($clinics as $clinic)
                         <x-mary-card title="{{ Str::of($clinic['clinic_name'])->ucfirst() }}">
                             {{ Str::of($clinic['clinic_address'])->ucfirst() }}
+                            <div class="flex flex-col gap-3 mt-3">
+                                <div class="flex">
+                                    <x-mary-button icon="iconpark.schedule-o" label="Check clinic schedules" class="btn-ghost btn-sm" @click="$wire.show_schedules({{ $clinic['id'] }} )" />
+                                </div>
+                                <div class="flex">
+                                    <x-mary-button icon="o-clock" label="Set operating hours" class="btn-ghost btn-sm" @click="$wire.show_set_operation({{ $clinic['id'] }})" />
+                                </div>
+                            </div>
+
                             <x-slot:figure>
                                 <iframe width="100%" height="170" frameborder="0" src= "https://maps.google.com/maps?f=q&source=s_q&hl=en&geocode=&q='{{ str_replace(',', '', str_replace(' ', '+', $clinic['clinic_address'])) }}' &z=14&output=embed"></iframe>
                             </x-slot:figure>
+
                             <x-slot:menu>
                                 @if ($clinic['map_link'] != null)
                                     <x-mary-button icon="o-globe-alt" link="{{ $clinic['map_link'] }}" external tooltip="Goto google maps" class="btn-circle btn-ghost btn-sm" />
                                 @endif
-                                <x-mary-button icon="o-clock" tooltip="Set operating hours" class="btn-circle btn-ghost btn-sm" @click="$wire.show_set_operation({{ $clinic['id'] }})" />
                             </x-slot:menu>
-                            <x-mary-button icon="iconpark.schedule-o" tooltip="Check dental schedules" class="btn-circle btn-ghost btn-sm" @click="$wire.show_schedules({{ $clinic['id'] }} )" />
                         </x-mary-card>
                     @endforeach
                 </div>

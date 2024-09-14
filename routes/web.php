@@ -30,6 +30,9 @@ Route::prefix("subadmin")
         Route::view("dentists", "admin.dentists")->name("dentists");
         Route::view("schedules", "subadmin.schedules")->name("schedules");
         Route::view("profile", "profile")->name("subadmin_profile");
+        Route::view("new-schedule", "subadmin.new-schedule")->name(
+            "new_schedule"
+        );
     });
 
 Route::prefix("dentist")
@@ -56,7 +59,7 @@ Route::prefix("dentist")
 Route::prefix("patient")
     ->middleware(["auth", "verified", "rolemanager:patient"])
     ->group(function () {
-        Route::view("", "dashboard")->name("patient_dashboard");
+        Route::view("/", "dashboard")->name("patient_dashboard");
         Route::view("profile", "profile")->name("patient_profile");
         Route::view("doctor", "patient.doctor")->name("patient_doctor");
         Route::prefix("clinic")->group(function () {
@@ -74,7 +77,7 @@ Route::prefix("patient")
         });
     });
 
-Route::prefix("subadmin")
+Route::prefix("guest")
     ->middleware(["auth", "verified", "rolemanager:guest"])
     ->group(function () {
         Route::view("dashboard", "dashboard")->name("guest_dashboard");
