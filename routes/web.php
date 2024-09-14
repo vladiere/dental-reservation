@@ -33,6 +33,7 @@ Route::prefix("subadmin")
         Route::view("new-schedule", "subadmin.new-schedule")->name(
             "new_schedule"
         );
+        Route::view("appointment", "subadmin.appointment")->name("appointment");
     });
 
 Route::prefix("dentist")

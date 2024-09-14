@@ -105,7 +105,7 @@ new class extends Component {
                     @foreach($clinics as $clinic)
                         <x-mary-card title="{{ Str::of($clinic['clinic_name'])->ucfirst() }}">
                             {{ Str::of($clinic['clinic_address'])->ucfirst() }}
-                            <div class="flex flex-col gap-3 mt-3">
+                            <div class="flex flex-col mt-3">
                                 <div class="flex">
                                     <x-mary-button icon="iconpark.schedule-o" label="Check clinic schedules" class="btn-ghost btn-sm" @click="$wire.show_schedules({{ $clinic['id'] }} )" />
                                 </div>

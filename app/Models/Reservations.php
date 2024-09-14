@@ -4,6 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use App\Models\User;
+use App\Models\Service;
 
 class Reservations extends Model
 {
@@ -12,8 +15,34 @@ class Reservations extends Model
     protected $fillable = [
         "user_id",
         "service_id",
-        "reservation_day",
-        "reservation_time",
+        "reservation_datetime",
         "reservation_status",
+        "count",
+        "reservation_type",
     ];
+
+    public function users(): BelongsTo
+    {
+        return $this->belongsTo(User::class, "user_id");
+    }
+
+    public function services(): BelongsTo
+    {
+        return $this->belongsTo(Service::class, "service_id");
+    }
+
+    public function getReservationDatetimeAttribute($value)
+    {
+        return $value ? Carbon::parse($value)->format("M d Y h:i A") : null;
+    }
+
+    public function getCreatedAtAttribute($value)
+    {
+        return $value ? Carbon::parse($value)->format("m/d/Y") : null;
+    }
+
+    public function getUpdatedAtAttribute($value)
+    {
+        return $value ? Carbon::parse($value)->format("m/d/Y") : null;
+    }
 }
