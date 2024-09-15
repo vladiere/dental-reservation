@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Reservations;
+use App\Models\WebNotification;
 use Mary\Traits\Toast;
 
 use App\Models\Schedule;
@@ -9,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\Rule;
 use Livewire\Volt\Component;
+use App\Support\TimeRange;
 
 new class extends Component {
     use Toast;
@@ -76,7 +78,6 @@ new class extends Component {
         $data = $this->validate();
         $data["user_id"] = Auth::user()->id;
 
-        dd($data);
         if ($data["reserve_type"] === "solo" && $data["patient_count"] > 1) {
             $this->error(
                 "Patient count is high for solo",
@@ -92,6 +93,14 @@ new class extends Component {
             );
             return;
         } else {
+            if (TimeRange::checkDateTime($data["reserve_datetime"])) {
+                $this->error(
+                    "Please give a valid date",
+                    position: "toast-top toast-right"
+                );
+                return;
+            }
+
             $result = Reservations::create([
                 "user_id" => $data["user_id"],
                 "service_id" => $data["service_id"],
@@ -99,20 +108,39 @@ new class extends Component {
                 "reserve_type" => $data["reserve_type"],
                 "count" => $data["patient_count"],
             ]);
+
             if ($result) {
-                $this->reset();
-                $this->success(
-                    "Appointment added",
-                    position: "toast-top toast-right"
-                );
-                return;
+                $res = WebNotification::create([
+                    "user_id" => 0,
+                    "appointment_id" => $result["id"],
+                    "web_message" =>
+                        Auth::user()->email .
+                        " has booked an appointment on " .
+                        TimeRange::consiseDatetime($data["reserve_datetime"]),
+                    "web_date_time" => now(),
+                ]);
+
+                if ($res) {
+                    $this->reset();
+                    $this->success(
+                        "Appointment added",
+                        position: "toast-top toast-right"
+                    );
+                } else {
+                    $this->error(
+                        "Something went wrong",
+                        position: "toast-top toast-right"
+                    );
+                }
             } else {
                 $this->error(
                     "Appointment added failed",
                     position: "toast-top toast-right"
                 );
-                return;
             }
+
+            $this->fetchClinic();
+            return;
         }
     }
 };

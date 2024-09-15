@@ -18,9 +18,28 @@ class WebNotificationController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
-    {
-        //
+    public function create(
+        $appointment_id,
+        $web_message,
+        $web_datetime,
+        $notif_status = 0
+    ) {
+        // "appointment_id",
+        // "web_message",
+        // "web_date_time",
+        // "notif_status",
+        $result = WebNotification::create([
+            "appointment_id" => $appointment_id,
+            "web_message" => $web_message,
+            "web_date_time" => $web_datetime,
+            "notif_status" => $notif_status,
+        ]);
+
+        if ($result) {
+            return true;
+        }
+
+        return false;
     }
 
     /**

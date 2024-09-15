@@ -3,7 +3,6 @@
 use App\Models\DentistSchedule;
 use Mary\Traits\Toast;
 
-use App\Models\User;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Livewire\Volt\Component;
@@ -29,17 +28,12 @@ new class extends Component {
 
     public function doc_schedules(): void
     {
-        $this->doc_sched = User::query()
+        $this->doc_sched = DentistSchedule::query()
+            ->leftjoin("users", "users.id", "=", "dentist_schedules.user_id")
             ->leftjoin("details", "users.details_id", "=", "details.id")
-            ->leftjoin(
-                "dentist_schedules",
-                "users.id",
-                "=",
-                "dentist_schedules.user_id"
-            )
             ->select(
                 DB::raw("
-            users.id as user_id,
+            users.id as users_id,
             dentist_schedules.id as sched_id,
             concat(details.last_name, ', ', details.first_name, ' ', details.middle_name) as full_name,
             dentist_schedules.sched_days,

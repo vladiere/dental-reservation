@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Appointment;
+use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -13,9 +14,11 @@ return new class extends Migration {
     {
         Schema::create("web_notifications", function (Blueprint $table) {
             $table->id();
+            $table->foreignIdFor(User::class)->cascadeOnDelete();
             $table->foreignIdFor(Appointment::class)->cascadeOnDelete();
             $table->string("web_message");
             $table->dateTime("web_date_time", precision: 0);
+            $table->tinyInteger("notif_status")->default(0);
             $table->timestamps();
         });
     }

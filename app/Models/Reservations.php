@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use App\Models\User;
 use App\Models\Service;
+use Illuminate\Support\Carbon;
 
 class Reservations extends Model
 {
@@ -18,7 +19,7 @@ class Reservations extends Model
         "reservation_datetime",
         "reservation_status",
         "count",
-        "reservation_type",
+        "reserve_type",
     ];
 
     public function users(): BelongsTo
@@ -33,16 +34,16 @@ class Reservations extends Model
 
     public function getReservationDatetimeAttribute($value)
     {
-        return $value ? Carbon::parse($value)->format("M d Y h:i A") : null;
+        return $value ? Carbon::parse($value)->format("M d, Y h:i A") : null;
     }
 
     public function getCreatedAtAttribute($value)
     {
-        return $value ? Carbon::parse($value)->format("m/d/Y") : null;
+        return $value ? Carbon::parse($value)->format("M d, Y h:i A") : null;
     }
 
     public function getUpdatedAtAttribute($value)
     {
-        return $value ? Carbon::parse($value)->format("m/d/Y") : null;
+        return $value ? Carbon::parse($value)->format("M d, Y h:i A") : null;
     }
 }

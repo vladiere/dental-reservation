@@ -25,10 +25,15 @@ Route::prefix("admin")
 Route::prefix("subadmin")
     ->middleware(["auth", "verified", "rolemanager:subadmin"])
     ->group(function () {
-        Route::view("dashboard", "dashboard")->name("subadmin_dashboard");
+        Route::view("dashboard", "subadmin.dashboard")->name(
+            "subadmin_dashboard"
+        );
         Route::view("patients", "admin.patients")->name("patients");
         Route::view("dentists", "admin.dentists")->name("dentists");
         Route::view("schedules", "subadmin.schedules")->name("schedules");
+        Route::view("notifications", "subadmin.notification")->name(
+            "subadmin_notif"
+        );
         Route::view("profile", "profile")->name("subadmin_profile");
         Route::view("new-schedule", "subadmin.new-schedule")->name(
             "new_schedule"
@@ -63,6 +68,9 @@ Route::prefix("patient")
         Route::view("/", "dashboard")->name("patient_dashboard");
         Route::view("profile", "profile")->name("patient_profile");
         Route::view("doctor", "patient.doctor")->name("patient_doctor");
+        Route::view("notifications", "patient.notification")->name(
+            "patient_notif"
+        );
         Route::prefix("clinic")->group(function () {
             Route::view("", "patient.clinic")->name("patient_clinic");
             Route::get("/{clinic_id?}", function (?int $clinic_id) {

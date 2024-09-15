@@ -51,4 +51,27 @@ class TimeRange
 
         return $combined . $suffix;
     }
+
+    public static function checkDateTime($dateTime): bool
+    {
+        $now = Carbon::now();
+        $givenDate = Carbon::parse($dateTime);
+
+        // Check if the date is not yesterday
+        if ($givenDate->isYesterday()) {
+            return false;
+        }
+
+        // Check if the time is less than a minute ago
+        if ($givenDate->diffInMinutes($now) < 1) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public static function consiseDatetime($value)
+    {
+        return $value ? Carbon::parse($value)->format("M d, Y h:i A") : null;
+    }
 }
