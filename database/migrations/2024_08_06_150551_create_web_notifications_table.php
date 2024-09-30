@@ -18,6 +18,8 @@ return new class extends Migration {
             $table->foreignIdFor(Appointment::class)->cascadeOnDelete();
             $table->string("web_message");
             $table->dateTime("web_date_time", precision: 0);
+            // 0 - unread
+            // 1 - read
             $table->tinyInteger("notif_status")->default(0);
             $table->timestamps();
         });

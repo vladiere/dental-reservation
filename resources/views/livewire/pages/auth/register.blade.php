@@ -1,5 +1,7 @@
 <?php
 
+use Mary\Traits\Toast;
+
 use App\Models\Details;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -12,13 +14,15 @@ use Livewire\Volt\Component;
 use Illuminate\Support\Str;
 
 new #[Layout("layouts.guest")] #[Title("Login")] class extends Component {
+    use Toast;
+
     #[Rule("required|string|max:255")]
     public string $first_name = "";
     #[Rule("required|string|max:255")]
     public string $last_name = "";
     #[Rule("required|string|max:255")]
     public string $middle_name = "";
-    #[Rule("required|string|max:11")]
+    #[Rule("required|string|max:10")]
     public string $contact_no = "";
     #[Rule("required|string|max:255")]
     public string $gender = "";
@@ -47,6 +51,13 @@ new #[Layout("layouts.guest")] #[Title("Login")] class extends Component {
     {
         $data = $this->validate();
         $data["password"] = Hash::make($data["password"]);
+        if (strlen($data["contact_no"]) !== 10) {
+            $this->warning(
+                "Contact number must be a valid number",
+                position: "toast-top toast-right"
+            );
+            return;
+        }
 
         $user_detail = Details::create([
             "first_name" => Str::of($data["first_name"])->lower(),
@@ -122,7 +133,7 @@ new #[Layout("layouts.guest")] #[Title("Login")] class extends Component {
         <!-- Contact address and number -->
         <div class="space-y-2 md:space-y-0 md:grid md:grid-cols-3 gap-2 ">
             <x-mary-input  class="rounded-lg" label="Complete address" wire:model="address" required type="text" name="address" autofocus autocomplete="address" />
-            <x-mary-input  class="rounded-lg" label="Contact number" max="13" wire:model="contact_no" required type="text" name="contact_no" autofocus autocomplete="contact_no" />
+            <x-mary-input  class="rounded-lg" label="Contact number" len="10" wire:model="contact_no" required type="text" name="contact_no" autofocus autocomplete="contact_no" prefix="+63" placeholder="e.g. (9876543211)" />
             <x-mary-select class="rounded-lg" label="Gender" placeholder="Select your gender" :options="$this->genders()" required wire:model="gender" />
         </div>
 

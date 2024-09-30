@@ -84,6 +84,7 @@ Route::prefix("patient")
                 ->where("id", "[0-9]+")
                 ->name("clinic_reservation");
         });
+        Route::view("/booking", "patient.booking")->name("booking");
     });
 
 Route::prefix("guest")

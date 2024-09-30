@@ -51,7 +51,7 @@ new class extends Component {
     public function headers(): array
     {
         return [
-            ["key" => "user_id", "label" => "#", "class" => "w-10"],
+            ["key" => "users_id", "label" => "#", "class" => "w-10"],
             ["key" => "full_name", "label" => "Full Name", "class" => "w-40"],
             [
                 "key" => "sched_days",

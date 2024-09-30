@@ -1,6 +1,8 @@
 <?php
 
+use App\Models\SmsNotification;
 use App\Support\TimeRange;
+use App\Support\SendSMS;
 use App\Models\Reservations;
 use App\Models\WebNotification;
 use Illuminate\Support\Facades\Auth;
@@ -16,6 +18,7 @@ new class extends Component {
     public bool $resrv_modal = false;
     public int $resrv_id;
     public int $resrv_status = 0;
+    public string $cn = "";
 
     public array $soryBy = [
         "column" => "reservations.id",
@@ -47,7 +50,8 @@ new class extends Component {
             reservations.reserve_type,
             reservations.count as patient_count,
             reservations.reservation_status,
-            concat(details.first_name, ' ', SUBSTRING(details.middle_name, 1, 1), '. ', details.last_name) as full_name
+            concat(details.first_name, ' ', SUBSTRING(details.middle_name, 1, 1), '. ', details.last_name) as full_name,
+            details.contact_no
         ")
             )
             ->orderBy(...array_values($this->soryBy))
@@ -110,6 +114,7 @@ new class extends Component {
     {
         $this->resrv_id = $details["resrv_id"];
         $this->resrv_modal = true;
+        $this->cn = $details["contact_no"];
         $this->fetch_reservation();
         return;
     }
@@ -159,6 +164,24 @@ new class extends Component {
                 TimeRange::consiseDatetime(now()),
             "web_date_time" => now(),
         ]);
+        SmsNotification::create([
+            "user_id" => Auth::user()->id,
+            "appointment_id" => $this->resrv_id,
+            "sms_message" =>
+                "Admin has " .
+                $stat_msg .
+                " your appointment on " .
+                TimeRange::consiseDatetime(now()),
+            "sms_date_time" => now(),
+        ]);
+
+        SendSMS::sendMessage(
+            $this->cn,
+            "Dental Reservation SOY - Admin has " .
+                $stat_msg .
+                " your appointment on " .
+                TimeRange::consiseDatetime(now())
+        );
     }
 };
 ?>
